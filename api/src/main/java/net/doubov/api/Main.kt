@@ -16,13 +16,8 @@ fun main() = runBlocking {
     val apiResponse = redditApi.fetchAnonymousAccessToken()
 
     when (apiResponse) {
-        is ApiResponse.Success<*> -> {
-            val accessTokenResponse = apiResponse.data as AccessTokenResponse
-            println("AccessTokenResponse: $accessTokenResponse")
-        }
-        is ApiResponse.Failure -> {
-            println(apiResponse.exception)
-        }
+        is ApiResponse.Success<AccessTokenResponse> -> println("AccessTokenResponse: $apiResponse.data")
+        is ApiResponse.Failure -> println(apiResponse.exception)
     }
 
 }

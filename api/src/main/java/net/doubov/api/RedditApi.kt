@@ -33,7 +33,7 @@ class RedditApi(private val okHttpClient: OkHttpClient, private val json: Json) 
         const val INSTALLED_CLIENT = "$OAUTH/grants/installed_client"
     }
 
-    fun fetchAnonymousAccessToken(): ApiResponse {
+    fun fetchAnonymousAccessToken(): ApiResponse<AccessTokenResponse> {
 
         val body = MultipartBody
             .Builder()
@@ -65,9 +65,9 @@ class RedditApi(private val okHttpClient: OkHttpClient, private val json: Json) 
 
 class ApiResponseException(message: String? = null) : Exception(message)
 
-sealed class ApiResponse {
-    data class Success<T>(val data: T) : ApiResponse()
-    data class Failure(val exception: ApiResponseException) : ApiResponse()
+sealed class ApiResponse<T> {
+    data class Success<T>(val data: T) : ApiResponse<T>()
+    data class Failure<T>(val exception: ApiResponseException) : ApiResponse<T>()
 }
 
 @Serializable
