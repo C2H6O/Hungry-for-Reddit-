@@ -4,7 +4,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import net.doubov.api.RedditApi.Keys.DEVICE_ID
 import net.doubov.api.RedditApi.Keys.GRANT_TYPE
-import net.doubov.api.RedditApi.Keys.REDIRECT_URI
 import net.doubov.api.RedditApi.Url.ACCESS_TOKEN
 import net.doubov.api.RedditApi.Url.OAUTH
 import net.doubov.api.RedditApi.Values.CLIENT_ID
@@ -26,8 +25,6 @@ class RedditApi(private val okHttpClient: OkHttpClient, private val json: Json) 
     object Keys {
         const val GRANT_TYPE = "grant_type"
         const val DEVICE_ID = "device_id"
-        const val REDIRECT_URI = "redirect_uri"
-        const val CODE = "code"
     }
 
     object Values {
@@ -36,18 +33,13 @@ class RedditApi(private val okHttpClient: OkHttpClient, private val json: Json) 
         const val INSTALLED_CLIENT = "$OAUTH/grants/installed_client"
     }
 
-    companion object {
-        private const val REDIRECT_URL = "http://localhost:8080/hungry4reddit"
-    }
-
-    suspend fun fetchAnonymousAccessToken(): ApiResponse {
+    fun fetchAnonymousAccessToken(): ApiResponse {
 
         val body = MultipartBody
             .Builder()
             .setType(MultipartBody.FORM)
             .addFormDataPart(DEVICE_ID, DO_NOT_TRACK)
             .addFormDataPart(GRANT_TYPE, INSTALLED_CLIENT)
-            .addFormDataPart(REDIRECT_URI, REDIRECT_URL)
             .build()
 
         val request = Request
