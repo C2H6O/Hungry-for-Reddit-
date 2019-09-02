@@ -11,9 +11,9 @@ import net.doubov.hungryforreddit.di.YetAnotherModule
 
 class App : Application() {
 
-    private lateinit var appComponent: AppComponent
+    lateinit var appComponent: AppComponent
 
-    private lateinit var anotherComponent: AnotherComponent
+    lateinit var anotherComponent: AnotherComponent
 
     override fun onCreate() {
         super.onCreate()
