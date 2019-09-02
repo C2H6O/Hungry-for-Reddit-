@@ -1,6 +1,9 @@
 package net.doubov.api
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
@@ -13,11 +16,12 @@ fun main() = runBlocking {
 
     val redditApi = RedditApi(okHttpClient, Json(JsonConfiguration.Default.copy(strictMode = false)))
 
-    val apiResponse = redditApi.fetchAnonymousAccessToken()
-
-    when (apiResponse) {
-        is ApiResponse.Success<AccessTokenResponse> -> println("AccessTokenResponse: $apiResponse.data")
-        is ApiResponse.Failure -> println(apiResponse.exception)
+    launch {
+        when (val apiResponse = withContext(Dispatchers.IO) { redditApi.fetchAnonymousAccessToken() }) {
+            is ApiResponse.Success<AccessTokenResponse> -> println("AccessTokenResponse: $apiResponse")
+            is ApiResponse.Failure -> println(apiResponse.exception)
+        }
     }
 
+    Unit
 }

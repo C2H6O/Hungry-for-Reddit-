@@ -1,6 +1,5 @@
 package net.doubov.api
 
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import net.doubov.api.RedditApi.Keys.DEVICE_ID
 import net.doubov.api.RedditApi.Keys.GRANT_TYPE
@@ -62,13 +61,3 @@ class RedditApi(private val okHttpClient: OkHttpClient, private val json: Json) 
         return ApiResponse.Failure(ApiResponseException(response.message()))
     }
 }
-
-class ApiResponseException(message: String? = null) : Exception(message)
-
-sealed class ApiResponse<T> {
-    data class Success<T>(val data: T) : ApiResponse<T>()
-    data class Failure<T>(val exception: ApiResponseException) : ApiResponse<T>()
-}
-
-@Serializable
-data class AccessTokenResponse(val access_token: String, val token_type: String)
