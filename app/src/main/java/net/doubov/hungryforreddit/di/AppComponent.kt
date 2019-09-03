@@ -11,10 +11,11 @@ import kotlinx.serialization.json.JsonConfiguration
 import net.doubov.api.RedditApi
 import net.doubov.hungryforreddit.App
 import net.doubov.hungryforreddit.Preferences
+import net.doubov.hungryforreddit.di.api.RedditApiModule
 import okhttp3.OkHttpClient
 
 @AppScope
-@Component(modules = [AppModule::class])
+@Component(modules = [AppModule::class, RedditApiModule::class])
 interface AppComponent {
 
     fun redditApi(): RedditApi
@@ -26,7 +27,8 @@ interface AppComponent {
     interface Factory {
         fun create(
             @BindsInstance app: App,
-            appModule: AppModule
+            appModule: AppModule,
+            redditApiModule: RedditApiModule
         ): AppComponent
     }
 }
@@ -59,11 +61,4 @@ object AppModule {
     fun okHttpClient(): OkHttpClient {
         return OkHttpClient.Builder().build()
     }
-
-    @Provides
-    @AppScope
-    fun redditApi(okHttpClient: OkHttpClient, json: Json): RedditApi {
-        return RedditApi(okHttpClient, json)
-    }
-
 }

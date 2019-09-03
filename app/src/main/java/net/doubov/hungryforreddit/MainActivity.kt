@@ -17,8 +17,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         try {
             launch {
                 withContext(Dispatchers.IO) {
-                    val apiResponse = (applicationContext as App).appComponent.redditApi().fetchAnonymousAccessToken()
+                    val apiResponse = (applicationContext as App).getAppComponent().redditApi().fetchAnonymousAccessToken()
                     println("apiResponse $apiResponse")
+
                 }
             }
         } catch (e: Exception) {

@@ -8,19 +8,30 @@ import net.doubov.hungryforreddit.di.AppModule
 import net.doubov.hungryforreddit.di.DaggerAnotherComponent
 import net.doubov.hungryforreddit.di.DaggerAppComponent
 import net.doubov.hungryforreddit.di.YetAnotherModule
+import net.doubov.hungryforreddit.di.api.RedditApiModule
 
-class App : Application() {
+open class App : Application() {
 
-    lateinit var appComponent: AppComponent
+    protected var _appComponent: AppComponent? = null
 
-    lateinit var anotherComponent: AnotherComponent
+    protected var _anotherComponent: AnotherComponent? = null
 
     override fun onCreate() {
         super.onCreate()
-        println("LX___ hello")
+        println("LX___ App#onCreate()")
+    }
 
-        appComponent = DaggerAppComponent.factory().create(this, AppModule)
+    open fun getAppComponent(): AppComponent {
+        if (_appComponent == null) {
+            _appComponent = DaggerAppComponent.factory().create(this, AppModule, RedditApiModule)
+        }
+        return _appComponent ?: throw IllegalStateException("AppComponent must not be null")
+    }
 
-        anotherComponent = DaggerAnotherComponent.factory().create(appComponent, AnotherModule, YetAnotherModule)
+    open fun getAnotherComponent(): AnotherComponent {
+        if (_anotherComponent == null) {
+            _anotherComponent = DaggerAnotherComponent.factory().create(getAppComponent(), AnotherModule, YetAnotherModule)
+        }
+        return _anotherComponent ?: throw IllegalStateException("AnotherComponent must not be null")
     }
 }
