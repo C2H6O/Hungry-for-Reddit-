@@ -16,7 +16,6 @@ import net.doubov.hungryforreddit.di.AppModule
 import net.doubov.hungryforreddit.di.AppScope
 import okhttp3.OkHttpClient
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -55,15 +54,7 @@ class OverrideRedditApiModuleTestApp : App() {
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = OverrideRedditApiModuleTestApp::class)
-class ExampleUnitTest {
-
-    @Test
-    fun addition_isCorrect() {
-        val app = ApplicationProvider.getApplicationContext<OverrideRedditApiModuleTestApp>()
-        assertNotNull(app)
-        assertEquals(4, 2 + 2)
-    }
-
+class ExampleOverridingModule {
     @Test
     fun `RedditApi mock is working properly`() {
         val app = ApplicationProvider.getApplicationContext<OverrideRedditApiModuleTestApp>()
