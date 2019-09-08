@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -55,7 +56,11 @@ class MainFragment : Fragment(), CoroutineScope by MainScope() {
                     .makeText(requireContext(), "Failed to fetch anonymous access token: ${apiResponse.exception}", Toast.LENGTH_LONG)
                     .show()
             }
-
         }
+    }
+
+    override fun onDestroyView() {
+        coroutineContext[Job]?.cancel()
+        super.onDestroyView()
     }
 }
