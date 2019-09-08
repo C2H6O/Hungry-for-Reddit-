@@ -1,6 +1,9 @@
 package net.doubov.hungryforreddit
 
 import android.app.Application
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import net.doubov.hungryforreddit.di.AnotherComponent
 import net.doubov.hungryforreddit.di.AnotherModule
 import net.doubov.hungryforreddit.di.AppComponent
@@ -9,8 +12,16 @@ import net.doubov.hungryforreddit.di.DaggerAnotherComponent
 import net.doubov.hungryforreddit.di.DaggerAppComponent
 import net.doubov.hungryforreddit.di.YetAnotherModule
 import net.doubov.hungryforreddit.di.api.RedditApiModule
+import javax.inject.Inject
 
-open class App : Application() {
+open class App : Application(), HasAndroidInjector {
+
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+
+    override fun androidInjector(): AndroidInjector<Any> {
+        return dispatchingAndroidInjector
+    }
 
     protected var _appComponent: AppComponent? = null
 
@@ -18,6 +29,9 @@ open class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        getAppComponent().inject(this)
+
         println("LX___ App#onCreate()")
     }
 

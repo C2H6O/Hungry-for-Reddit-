@@ -5,6 +5,7 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import dagger.android.support.AndroidSupportInjectionModule
 import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
@@ -17,7 +18,7 @@ import net.doubov.hungryforreddit.di.api.RedditApiModule
 import okhttp3.OkHttpClient
 
 @AppScope
-@Component(modules = [AppModule::class, RedditApiModule::class])
+@Component(modules = [AppModule::class, RedditApiModule::class, MainActivityModule::class, AndroidSupportInjectionModule::class])
 interface AppComponent {
 
     fun redditApi(): RedditApi
@@ -26,6 +27,7 @@ interface AppComponent {
 
     fun preferences(): AppPreferences
 
+    fun inject(app: App)
 
     @Component.Factory
     interface Factory {
