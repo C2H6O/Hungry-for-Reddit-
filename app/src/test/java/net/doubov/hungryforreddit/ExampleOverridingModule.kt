@@ -7,14 +7,12 @@ import dagger.Module
 import dagger.Provides
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.serialization.json.Json
-import net.doubov.api.AccessTokenResponse
 import net.doubov.api.ApiResponse
 import net.doubov.api.RedditApi
+import net.doubov.api.responses.AccessTokenResponse
 import net.doubov.core.di.AppScope
 import net.doubov.hungryforreddit.di.AppComponent
 import net.doubov.hungryforreddit.di.AppModule
-import okhttp3.OkHttpClient
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -38,7 +36,7 @@ interface TestAppComponent : AppComponent {
 object TestRedditApiModule {
     @Provides
     @AppScope
-    fun redditApi(okHttpClient: OkHttpClient, json: Json): RedditApi {
+    fun redditApi(): RedditApi {
         return mockk()
     }
 }

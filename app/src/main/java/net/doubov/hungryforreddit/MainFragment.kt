@@ -14,10 +14,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import net.doubov.api.AccessTokenResponse
 import net.doubov.api.ApiResponse
 import net.doubov.api.ApiResponseException
 import net.doubov.api.RedditApi
+import net.doubov.api.responses.AccessTokenResponse
 import net.doubov.core.AppPreferences
 import javax.inject.Inject
 
@@ -56,6 +56,8 @@ class MainFragment : Fragment(), CoroutineScope by MainScope() {
                     .makeText(requireContext(), "Failed to fetch anonymous access token: ${apiResponse.exception}", Toast.LENGTH_LONG)
                     .show()
             }
+
+            withContext(Dispatchers.IO) { redditApi.fetchFrontPage() }
         }
     }
 

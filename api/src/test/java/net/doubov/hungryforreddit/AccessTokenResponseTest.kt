@@ -2,7 +2,7 @@ package net.doubov.hungryforreddit
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
-import net.doubov.api.AccessTokenResponse
+import net.doubov.api.responses.AccessTokenResponse
 import org.junit.Assert
 import org.junit.Test
 

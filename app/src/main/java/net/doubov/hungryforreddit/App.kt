@@ -11,7 +11,6 @@ import net.doubov.hungryforreddit.di.AppModule
 import net.doubov.hungryforreddit.di.DaggerAnotherComponent
 import net.doubov.hungryforreddit.di.DaggerAppComponent
 import net.doubov.hungryforreddit.di.YetAnotherModule
-import net.doubov.hungryforreddit.di.api.RedditApiModule
 import javax.inject.Inject
 
 open class App : Application(), HasAndroidInjector {
@@ -37,7 +36,7 @@ open class App : Application(), HasAndroidInjector {
 
     open fun getAppComponent(): AppComponent {
         if (_appComponent == null) {
-            _appComponent = DaggerAppComponent.factory().create(this, AppModule, RedditApiModule)
+            _appComponent = DaggerAppComponent.factory().create(this, AppModule)
         }
         return _appComponent ?: throw IllegalStateException("AppComponent must not be null")
     }

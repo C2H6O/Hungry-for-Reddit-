@@ -8,12 +8,21 @@ import net.doubov.api.RedditApi.Url.OAUTH
 import net.doubov.api.RedditApi.Values.CLIENT_ID
 import net.doubov.api.RedditApi.Values.DO_NOT_TRACK
 import net.doubov.api.RedditApi.Values.INSTALLED_CLIENT
+import net.doubov.api.responses.AccessTokenResponse
+import net.doubov.core.AppPreferences
+import net.doubov.core.di.AppScope
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.util.Base64
+import javax.inject.Inject
 
-class RedditApi(private val okHttpClient: OkHttpClient, private val json: Json) {
+@AppScope
+class RedditApi @Inject constructor(
+    private val okHttpClient: OkHttpClient,
+    private val json: Json,
+    private val appPreferences: AppPreferences
+) {
 
     object Url {
         const val BASE = "https://www.reddit.com/api"
@@ -60,4 +69,25 @@ class RedditApi(private val okHttpClient: OkHttpClient, private val json: Json) 
 
         return ApiResponse.Failure(ApiResponseException(response.message()))
     }
+
+    fun fetchFrontPage() {
+        val request = Request
+            .Builder()
+            .url("$OAUTH/hot/.json")
+            .addHeader("Authorization", "bearer ${appPreferences.anonymousAccessToken}")
+            .build()
+
+        val response = okHttpClient.newCall(request).execute()
+
+        if (response.isSuccessful) {
+            val responseString = response.body()?.string()
+            println("LX___ Response string $responseString")
+            if (responseString != null) {
+//                return ApiResponse.Success()
+            }
+        } else {
+            println("LX___ ${response.body()?.string()}")
+        }
+    }
+
 }

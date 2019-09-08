@@ -6,24 +6,21 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 import dagger.android.AndroidInjectionModule
-import kotlinx.serialization.UnstableDefault
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import net.doubov.api.RedditApi
 import net.doubov.core.AppPreferences
 import net.doubov.core.di.AppContext
 import net.doubov.core.di.AppScope
+import net.doubov.core.di.SerializationModule
 import net.doubov.hungryforreddit.App
 import net.doubov.hungryforreddit.di.android.MainActivityModule
-import net.doubov.hungryforreddit.di.api.RedditApiModule
 import okhttp3.OkHttpClient
 
 @AppScope
 @Component(
     modules = [
         AppModule::class,
-        RedditApiModule::class,
         MainActivityModule::class,
+        SerializationModule::class,
         AndroidInjectionModule::class
     ]
 )
@@ -41,8 +38,7 @@ interface AppComponent {
     interface Factory {
         fun create(
             @BindsInstance app: App,
-            appModule: AppModule,
-            redditApiModule: RedditApiModule
+            appModule: AppModule
         ): AppComponent
     }
 }
@@ -55,13 +51,6 @@ object AppModule {
     @AppScope
     fun provideAppContext(app: App): Context {
         return app
-    }
-
-    @UnstableDefault
-    @Provides
-    @AppScope
-    fun provideKotlinSerializationJson(): Json {
-        return Json(JsonConfiguration.Default.copy(strictMode = false))
     }
 
     @Provides
