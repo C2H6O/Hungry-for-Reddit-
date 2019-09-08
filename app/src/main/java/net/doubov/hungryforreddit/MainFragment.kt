@@ -13,7 +13,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import net.doubov.api.AccessTokenResponse
 import net.doubov.api.ApiResponse
+import net.doubov.api.ApiResponseException
 import net.doubov.api.RedditApi
 import net.doubov.core.AppPreferences
 import javax.inject.Inject
@@ -38,19 +40,22 @@ class MainFragment : Fragment(), CoroutineScope by MainScope() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        try {
-            launch {
-                withContext(Dispatchers.IO) {
-                    when (val apiResponse = redditApi.fetchAnonymousAccessToken()) {
-                        is ApiResponse.Success -> appPreferences.anonymousAccessToken = apiResponse.data.access_token
-                        is ApiResponse.Failure -> Toast
-                            .makeText(requireContext(), "Failed to fetch anonymous access token", Toast.LENGTH_LONG)
-                            .show()
-                    }
+        launch {
+            val apiResponse: ApiResponse<AccessTokenResponse> = withContext(Dispatchers.IO) {
+                try {
+                    redditApi.fetchAnonymousAccessToken()
+                } catch (e: Exception) {
+                    ApiResponse.Failure<AccessTokenResponse>(ApiResponseException(e.message))
                 }
             }
-        } catch (e: Exception) {
-            println("LX___ got an exception: $e")
+
+            when (apiResponse) {
+                is ApiResponse.Success -> appPreferences.anonymousAccessToken = apiResponse.data.access_token
+                is ApiResponse.Failure -> Toast
+                    .makeText(requireContext(), "Failed to fetch anonymous access token: ${apiResponse.exception}", Toast.LENGTH_LONG)
+                    .show()
+            }
+
         }
     }
 }
