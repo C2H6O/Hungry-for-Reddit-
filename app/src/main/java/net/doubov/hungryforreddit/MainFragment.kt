@@ -1,4 +1,4 @@
-package net.doubov.hungryforreddit.di
+package net.doubov.hungryforreddit
 
 import android.content.Context
 import android.os.Bundle
@@ -16,7 +16,6 @@ import kotlinx.coroutines.withContext
 import net.doubov.api.ApiResponse
 import net.doubov.api.RedditApi
 import net.doubov.core.AppPreferences
-import net.doubov.hungryforreddit.R
 import javax.inject.Inject
 
 class MainFragment : Fragment(), CoroutineScope by MainScope() {

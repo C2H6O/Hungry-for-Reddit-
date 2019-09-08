@@ -1,4 +1,4 @@
-package net.doubov.hungryforreddit.di.activity
+package net.doubov.hungryforreddit.di.android
 
 import dagger.Binds
 import dagger.Module
@@ -7,7 +7,6 @@ import dagger.android.AndroidInjector
 import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 import net.doubov.hungryforreddit.MainActivity
-import net.doubov.hungryforreddit.di.fragment.MainFragmentModule
 
 @Subcomponent(modules = [MainFragmentModule::class])
 interface MainActivityComponent : AndroidInjector<MainActivity> {

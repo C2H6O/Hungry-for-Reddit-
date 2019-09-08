@@ -6,7 +6,6 @@ import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import net.doubov.hungryforreddit.di.MainFragment
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
