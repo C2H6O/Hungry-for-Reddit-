@@ -14,6 +14,7 @@ import net.doubov.core.AppPreferences
 import net.doubov.core.di.AppContext
 import net.doubov.core.di.AppScope
 import net.doubov.hungryforreddit.App
+import net.doubov.hungryforreddit.di.activity.MainActivityModule
 import net.doubov.hungryforreddit.di.api.RedditApiModule
 import okhttp3.OkHttpClient
 
