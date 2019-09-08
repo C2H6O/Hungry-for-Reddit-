@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import kotlinx.serialization.json.Json
 import net.doubov.api.RedditApi
-import net.doubov.hungryforreddit.di.AppScope
+import net.doubov.core.di.AppScope
 import okhttp3.OkHttpClient
 
 @Module

@@ -1,4 +1,4 @@
-package net.doubov.hungryforreddit.di
+package net.doubov.core.di
 
 import javax.inject.Scope
 

@@ -3,13 +3,14 @@ package net.doubov.hungryforreddit.di
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import net.doubov.hungryforreddit.Preferences
+import net.doubov.core.AppPreferences
+import net.doubov.core.di.AnotherScope
 
 @AnotherScope
 @Component(modules = [AnotherModule::class, YetAnotherModule::class], dependencies = [AppComponent::class])
 interface AnotherComponent {
 
-    fun preferences(): Preferences
+    fun preferences(): AppPreferences
 
     fun randomString(): String
 

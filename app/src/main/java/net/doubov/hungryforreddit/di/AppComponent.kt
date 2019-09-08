@@ -9,8 +9,10 @@ import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 import net.doubov.api.RedditApi
+import net.doubov.core.AppPreferences
+import net.doubov.core.di.AppContext
+import net.doubov.core.di.AppScope
 import net.doubov.hungryforreddit.App
-import net.doubov.hungryforreddit.Preferences
 import net.doubov.hungryforreddit.di.api.RedditApiModule
 import okhttp3.OkHttpClient
 
@@ -21,7 +23,9 @@ interface AppComponent {
     fun redditApi(): RedditApi
     @AppContext
     fun appContext(): Context
-    fun preferences(): Preferences
+
+    fun preferences(): AppPreferences
+
 
     @Component.Factory
     interface Factory {
@@ -41,12 +45,6 @@ object AppModule {
     @AppScope
     fun provideAppContext(app: App): Context {
         return app
-    }
-
-    @Provides
-    @AppScope
-    fun providePreferences(app: App): Preferences {
-        return Preferences(app.getSharedPreferences(Preferences.NAME, Context.MODE_PRIVATE))
     }
 
     @UnstableDefault

@@ -11,9 +11,9 @@ import kotlinx.serialization.json.Json
 import net.doubov.api.AccessTokenResponse
 import net.doubov.api.ApiResponse
 import net.doubov.api.RedditApi
+import net.doubov.core.di.AppScope
 import net.doubov.hungryforreddit.di.AppComponent
 import net.doubov.hungryforreddit.di.AppModule
-import net.doubov.hungryforreddit.di.AppScope
 import okhttp3.OkHttpClient
 import org.junit.Assert.assertEquals
 import org.junit.Test
