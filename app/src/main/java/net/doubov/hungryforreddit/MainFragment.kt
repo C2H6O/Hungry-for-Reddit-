@@ -17,8 +17,8 @@ import kotlinx.coroutines.withContext
 import net.doubov.api.ApiResponse
 import net.doubov.api.ApiResponseException
 import net.doubov.api.RedditApi
-import net.doubov.api.responses.AccessTokenResponse
 import net.doubov.core.AppPreferences
+import net.doubov.core.data.responses.AccessTokenResponse
 import javax.inject.Inject
 
 class MainFragment : Fragment(), CoroutineScope by MainScope() {

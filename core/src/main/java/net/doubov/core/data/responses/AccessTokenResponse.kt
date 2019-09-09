@@ -1,4 +1,4 @@
-package net.doubov.api.responses
+package net.doubov.core.data.responses
 
 import kotlinx.serialization.Serializable
 

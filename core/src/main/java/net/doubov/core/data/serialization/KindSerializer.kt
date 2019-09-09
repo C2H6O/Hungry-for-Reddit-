@@ -1,10 +1,10 @@
-package net.doubov.api.serialization
+package net.doubov.core.data.serialization
 
 import kotlinx.serialization.Decoder
 import kotlinx.serialization.Encoder
 import kotlinx.serialization.SerialDescriptor
 import kotlinx.serialization.Serializer
-import net.doubov.api.responses.Kind
+import net.doubov.core.data.responses.Kind
 
 @Serializer(forClass = Kind::class)
 object KindSerializer {

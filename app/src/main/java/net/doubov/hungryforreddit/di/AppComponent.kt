@@ -38,7 +38,8 @@ interface AppComponent {
     interface Factory {
         fun create(
             @BindsInstance app: App,
-            appModule: AppModule
+            appModule: AppModule,
+            serializationModule: SerializationModule
         ): AppComponent
     }
 }

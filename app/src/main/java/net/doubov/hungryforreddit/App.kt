@@ -4,6 +4,7 @@ import android.app.Application
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import net.doubov.core.di.SerializationModule
 import net.doubov.hungryforreddit.di.AnotherComponent
 import net.doubov.hungryforreddit.di.AnotherModule
 import net.doubov.hungryforreddit.di.AppComponent
@@ -36,7 +37,7 @@ open class App : Application(), HasAndroidInjector {
 
     open fun getAppComponent(): AppComponent {
         if (_appComponent == null) {
-            _appComponent = DaggerAppComponent.factory().create(this, AppModule)
+            _appComponent = DaggerAppComponent.factory().create(this, AppModule, SerializationModule)
         }
         return _appComponent ?: throw IllegalStateException("AppComponent must not be null")
     }

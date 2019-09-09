@@ -8,8 +8,8 @@ import net.doubov.api.RedditApi.Url.OAUTH
 import net.doubov.api.RedditApi.Values.CLIENT_ID
 import net.doubov.api.RedditApi.Values.DO_NOT_TRACK
 import net.doubov.api.RedditApi.Values.INSTALLED_CLIENT
-import net.doubov.api.responses.AccessTokenResponse
 import net.doubov.core.AppPreferences
+import net.doubov.core.data.responses.AccessTokenResponse
 import net.doubov.core.di.AppScope
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient

@@ -5,6 +5,7 @@ import dagger.Provides
 import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
+import net.doubov.core.data.responses.thingModule
 
 @Module
 object SerializationModule {
@@ -12,6 +13,9 @@ object SerializationModule {
     @Provides
     @AppScope
     fun provideKotlinSerializationJson(): Json {
-        return Json(JsonConfiguration.Default.copy(strictMode = false))
+        return Json(
+            JsonConfiguration.Default.copy(strictMode = false, classDiscriminator = "kind"),
+            context = thingModule
+        )
     }
 }
