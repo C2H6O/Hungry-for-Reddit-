@@ -8,13 +8,14 @@ import net.doubov.api.RedditApi.Url.OAUTH
 import net.doubov.api.RedditApi.Values.CLIENT_ID
 import net.doubov.api.RedditApi.Values.DO_NOT_TRACK
 import net.doubov.api.RedditApi.Values.INSTALLED_CLIENT
+import net.doubov.api.models.NewsResponse
 import net.doubov.core.AppPreferences
 import net.doubov.core.data.responses.AccessTokenResponse
 import net.doubov.core.di.AppScope
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.util.Base64
+import java.util.*
 import javax.inject.Inject
 
 @AppScope
@@ -57,37 +58,56 @@ class RedditApi @Inject constructor(
             .addHeader("Authorization", "Basic ${Base64.getEncoder().encodeToString("$CLIENT_ID:".toByteArray())}")
             .build()
 
-        val response = okHttpClient.newCall(request).execute()
+        try {
+            val response = okHttpClient.newCall(request).execute()
 
-        if (response.isSuccessful) {
-            val responseString = response.body()?.string()
-            println("Response string: $responseString")
-            if (responseString != null) {
-                return ApiResponse.Success(json.parse(AccessTokenResponse.serializer(), responseString))
+            if (response.isSuccessful) {
+                val responseString = response.body()?.string()
+                println("Response string: $responseString")
+                if (responseString != null) {
+                    return ApiResponse.Success(
+                        json.parse(
+                            AccessTokenResponse.serializer(),
+                            responseString
+                        )
+                    )
+                }
             }
-        }
 
-        return ApiResponse.Failure(ApiResponseException(response.message()))
+            return ApiResponse.Failure(ApiResponseException(response.message()))
+        } catch (e: Exception) {
+            return ApiResponse.Failure(ApiResponseException(e.message, exception = e))
+        }
     }
 
-    fun fetchFrontPage() {
+    fun fetchFrontPage(): ApiResponse<NewsResponse> {
         val request = Request
             .Builder()
             .url("$OAUTH/hot/.json")
             .addHeader("Authorization", "bearer ${appPreferences.anonymousAccessToken}")
             .build()
 
-        val response = okHttpClient.newCall(request).execute()
-
-        if (response.isSuccessful) {
-            val responseString = response.body()?.string()
-            println("LX___ Response string $responseString")
-            if (responseString != null) {
-//                return ApiResponse.Success()
+        try {
+            val response = okHttpClient.newCall(request).execute()
+            if (response.isSuccessful) {
+                val responseString = response.body()?.string()
+                if (responseString != null) {
+                    return ApiResponse.Success(
+                        json.parse(
+                            NewsResponse.serializer(),
+                            responseString
+                        )
+                    )
+                }
             }
-        } else {
-            println("LX___ ${response.body()?.string()}")
+            return ApiResponse.Failure(ApiResponseException("Successful request with null body. Request: ${response.request()}"))
+        } catch (exception: Exception) {
+            return ApiResponse.Failure(
+                ApiResponseException(
+                    exception.message,
+                    exception = exception
+                )
+            )
         }
     }
-
 }

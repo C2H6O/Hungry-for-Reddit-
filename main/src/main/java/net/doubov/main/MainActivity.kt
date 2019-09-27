@@ -1,4 +1,4 @@
-package net.doubov.hungryforreddit
+package net.doubov.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
