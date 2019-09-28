@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.coroutines.*
@@ -39,9 +38,31 @@ class MainFragment : Fragment(), CoroutineScope by MainScope() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
         launch {
+
+            fetchToken()
+
+            when (val newsResponse = withContext(Dispatchers.IO) { redditApi.fetchFrontPage() }) {
+                is ApiResponse.Success -> recyclerView.withModels {
+                    newsResponse.data.data.children.forEach { childResponse ->
+                        headerView {
+                            id(childResponse.data.id)
+                            title(childResponse.data.title)
+                            ups(childResponse.data.ups.toString())
+                        }
+                    }
+                }
+                is ApiResponse.Failure -> showErrorToast(
+                    "Failed to fetch NewsReponse",
+                    newsResponse.exception
+                )
+            }
+        }
+    }
+
+    private suspend fun fetchToken() {
+        if (appPreferences.anonymousAccessToken == null) {
+            println("LX___ requesting anonymousAccessToken!!")
             val apiResponse: ApiResponse<AccessTokenResponse> =
                 withContext(Dispatchers.IO) { redditApi.fetchAnonymousAccessToken() }
 
@@ -50,21 +71,6 @@ class MainFragment : Fragment(), CoroutineScope by MainScope() {
                 is ApiResponse.Failure -> showErrorToast(
                     "Failed to fetch anonymous access token",
                     apiResponse.exception
-                )
-            }
-
-            when (val newsResponse = withContext(Dispatchers.IO) { redditApi.fetchFrontPage() }) {
-                is ApiResponse.Success -> recyclerView.withModels {
-                    newsResponse.data.data.children.forEach { childResponse ->
-                        headerView {
-                            id(childResponse.data.uid)
-                            title(childResponse.data.title)
-                        }
-                    }
-                }
-                is ApiResponse.Failure -> showErrorToast(
-                    "Failed to fetch NewsReponse",
-                    newsResponse.exception
                 )
             }
         }

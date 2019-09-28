@@ -55,7 +55,10 @@ class RedditApi @Inject constructor(
             .Builder()
             .post(body)
             .url(ACCESS_TOKEN)
-            .addHeader("Authorization", "Basic ${Base64.getEncoder().encodeToString("$CLIENT_ID:".toByteArray())}")
+            .addHeader(
+                "Authorization",
+                "Basic ${Base64.getEncoder().encodeToString("$CLIENT_ID:".toByteArray())}"
+            )
             .build()
 
         try {
@@ -93,20 +96,14 @@ class RedditApi @Inject constructor(
                 val responseString = response.body()?.string()
                 if (responseString != null) {
                     return ApiResponse.Success(
-                        json.parse(
-                            NewsResponse.serializer(),
-                            responseString
-                        )
+                        json.parse(NewsResponse.serializer(), responseString)
                     )
                 }
             }
             return ApiResponse.Failure(ApiResponseException("Successful request with null body. Request: ${response.request()}"))
         } catch (exception: Exception) {
             return ApiResponse.Failure(
-                ApiResponseException(
-                    exception.message,
-                    exception = exception
-                )
+                ApiResponseException(exception.message, exception = exception)
             )
         }
     }
