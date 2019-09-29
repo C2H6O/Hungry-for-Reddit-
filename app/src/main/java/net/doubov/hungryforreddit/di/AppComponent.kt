@@ -5,7 +5,6 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import dagger.android.AndroidInjectionModule
 import net.doubov.api.RedditApi
 import net.doubov.core.AppPreferences
 import net.doubov.core.di.AppContext
@@ -13,25 +12,16 @@ import net.doubov.core.di.AppScope
 import net.doubov.core.di.SerializationModule
 import net.doubov.core.network.UnauthorizedInterceptor
 import net.doubov.hungryforreddit.App
-import net.doubov.hungryforreddit.di.android.MainActivityModule
 import okhttp3.OkHttpClient
 
 @AppScope
 @Component(
     modules = [
         AppModule::class,
-        MainActivityModule::class,
-        SerializationModule::class,
-        AndroidInjectionModule::class
+        SerializationModule::class
     ]
 )
-interface AppComponent {
-
-    fun redditApi(): RedditApi
-    @AppContext
-    fun appContext(): Context
-
-    fun preferences(): AppPreferences
+interface AppComponent : AppComponentInjections {
 
     fun inject(app: App)
 
@@ -64,4 +54,13 @@ object AppModule {
             .addInterceptor(unauthorizedInterceptor)
             .build()
     }
+}
+
+interface AppComponentInjections {
+
+    fun redditApi(): RedditApi
+    @AppContext
+    fun appContext(): Context
+
+    fun preferences(): AppPreferences
 }

@@ -1,11 +1,13 @@
-package net.doubov.main
+package net.doubov.hungryforreddit
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import net.doubov.hungryforreddit.di.DaggerMainActivityComponent
+import net.doubov.main.MainFragment
+import net.doubov.main.R
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
@@ -18,7 +20,12 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
+
+        DaggerMainActivityComponent
+            .factory()
+            .create(App.getApp(this).getAnotherComponent())
+            .inject(this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

@@ -9,3 +9,7 @@ annotation class AppScope
 @Scope
 @Retention(AnnotationRetention.RUNTIME)
 annotation class AnotherScope
+
+@Scope
+@Retention(AnnotationRetention.RUNTIME)
+annotation class ActivityScope

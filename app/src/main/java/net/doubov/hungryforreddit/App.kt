@@ -1,27 +1,11 @@
 package net.doubov.hungryforreddit
 
 import android.app.Application
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import android.content.Context
 import net.doubov.core.di.SerializationModule
-import net.doubov.hungryforreddit.di.AnotherComponent
-import net.doubov.hungryforreddit.di.AnotherModule
-import net.doubov.hungryforreddit.di.AppComponent
-import net.doubov.hungryforreddit.di.AppModule
-import net.doubov.hungryforreddit.di.DaggerAnotherComponent
-import net.doubov.hungryforreddit.di.DaggerAppComponent
-import net.doubov.hungryforreddit.di.YetAnotherModule
-import javax.inject.Inject
+import net.doubov.hungryforreddit.di.*
 
-open class App : Application(), HasAndroidInjector {
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
-
-    override fun androidInjector(): AndroidInjector<Any> {
-        return dispatchingAndroidInjector
-    }
+open class App : Application() {
 
     protected var _appComponent: AppComponent? = null
 
@@ -44,8 +28,15 @@ open class App : Application(), HasAndroidInjector {
 
     open fun getAnotherComponent(): AnotherComponent {
         if (_anotherComponent == null) {
-            _anotherComponent = DaggerAnotherComponent.factory().create(getAppComponent(), AnotherModule, YetAnotherModule)
+            _anotherComponent =
+                DaggerAnotherComponent.factory().create(getAppComponent(), AnotherModule, YetAnotherModule)
         }
         return _anotherComponent ?: throw IllegalStateException("AnotherComponent must not be null")
+    }
+
+    companion object {
+        fun getApp(context: Context): App {
+            return context.applicationContext as App
+        }
     }
 }

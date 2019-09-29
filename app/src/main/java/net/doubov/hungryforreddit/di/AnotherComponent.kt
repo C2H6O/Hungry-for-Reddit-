@@ -3,16 +3,24 @@ package net.doubov.hungryforreddit.di
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import net.doubov.core.AppPreferences
+import dagger.android.AndroidInjectionModule
 import net.doubov.core.di.AnotherScope
+import net.doubov.hungryforreddit.MainActivity
 
 @AnotherScope
-@Component(modules = [AnotherModule::class, YetAnotherModule::class], dependencies = [AppComponent::class])
-interface AnotherComponent {
+@Component(
+    modules = [
+        AnotherModule::class,
+        YetAnotherModule::class,
+        AndroidInjectionModule::class
+    ],
+    dependencies = [
+        AppComponent::class
+    ]
+)
+interface AnotherComponent : AnotherComponentInjections {
 
-    fun preferences(): AppPreferences
-
-    fun randomString(): String
+    fun inject(mainActivity: MainActivity)
 
     @Component.Factory
     interface Factory {
@@ -37,4 +45,8 @@ object YetAnotherModule {
     @AnotherScope
     @Provides
     fun randomInt(): Int = 42
+}
+
+interface AnotherComponentInjections : AppComponentInjections {
+    fun randomString(): String
 }
