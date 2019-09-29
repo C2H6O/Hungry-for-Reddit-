@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.coroutines.*
-import net.doubov.api.ApiResponse
-import net.doubov.api.ApiResponseException
 import net.doubov.api.RedditApi
 import net.doubov.core.AppPreferences
+import net.doubov.core.network.ApiResponse
+import net.doubov.core.network.ApiResponseException
 import net.doubov.main.views.headerView
 import javax.inject.Inject
 

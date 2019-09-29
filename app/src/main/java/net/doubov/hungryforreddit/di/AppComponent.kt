@@ -10,7 +10,7 @@ import net.doubov.core.AppPreferences
 import net.doubov.core.di.AppContext
 import net.doubov.core.di.AppScope
 import net.doubov.core.di.SerializationModule
-import net.doubov.core.network.UnauthorizedInterceptor
+import net.doubov.core.network.interceptors.UnauthorizedInterceptor
 import net.doubov.hungryforreddit.App
 import okhttp3.OkHttpClient
 

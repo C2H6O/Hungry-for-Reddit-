@@ -1,4 +1,4 @@
-package net.doubov.api
+package net.doubov.core.network
 
 sealed class ApiResponse<T> {
     data class Success<T>(val data: T) : ApiResponse<T>()

@@ -1,15 +1,15 @@
-package net.doubov.core.network
+package net.doubov.core.network.interceptors
 
 import kotlinx.serialization.json.Json
 import net.doubov.core.AppPreferences
 import net.doubov.core.data.responses.AccessTokenResponse
-import net.doubov.core.network.UnauthorizedInterceptor.Keys.DEVICE_ID
-import net.doubov.core.network.UnauthorizedInterceptor.Keys.GRANT_TYPE
-import net.doubov.core.network.UnauthorizedInterceptor.Url.ACCESS_TOKEN
-import net.doubov.core.network.UnauthorizedInterceptor.Url.OAUTH
-import net.doubov.core.network.UnauthorizedInterceptor.Values.CLIENT_ID
-import net.doubov.core.network.UnauthorizedInterceptor.Values.DO_NOT_TRACK
-import net.doubov.core.network.UnauthorizedInterceptor.Values.INSTALLED_CLIENT
+import net.doubov.core.network.interceptors.UnauthorizedInterceptor.Keys.DEVICE_ID
+import net.doubov.core.network.interceptors.UnauthorizedInterceptor.Keys.GRANT_TYPE
+import net.doubov.core.network.interceptors.UnauthorizedInterceptor.Url.ACCESS_TOKEN
+import net.doubov.core.network.interceptors.UnauthorizedInterceptor.Url.OAUTH
+import net.doubov.core.network.interceptors.UnauthorizedInterceptor.Values.CLIENT_ID
+import net.doubov.core.network.interceptors.UnauthorizedInterceptor.Values.DO_NOT_TRACK
+import net.doubov.core.network.interceptors.UnauthorizedInterceptor.Values.INSTALLED_CLIENT
 import okhttp3.Interceptor
 import okhttp3.MultipartBody
 import okhttp3.Request
