@@ -48,6 +48,7 @@ class UnauthorizedInterceptor @Inject constructor(
         val response = chain.proceed(chain.request())
 
         if (response.code == 401) {
+            response.close()
 
             // Unauthorized
             val body = MultipartBody
@@ -68,8 +69,6 @@ class UnauthorizedInterceptor @Inject constructor(
                 )
                 .build()
 
-            response.close()
-
             val tokenResponse = chain.proceed(tokenRequest)
 
             if (tokenResponse.isSuccessful) {
@@ -82,7 +81,6 @@ class UnauthorizedInterceptor @Inject constructor(
                     )
                     appPreferences.anonymousAccessToken = accessTokenResponse.access_token
                     // try the original request again.
-
                     val originalRequestWithNewToken = chain.request()
                         .newBuilder()
                         .removeHeader(Headers.AUTHORIZATION)
