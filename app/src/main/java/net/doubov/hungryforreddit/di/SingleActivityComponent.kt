@@ -3,7 +3,7 @@ package net.doubov.hungryforreddit.di
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import net.doubov.core.di.ActivityScope
-import net.doubov.hungryforreddit.MainActivity
+import net.doubov.hungryforreddit.SingleActivity
 import net.doubov.main.MainFragmentModule
 
 @ActivityScope
@@ -16,12 +16,12 @@ import net.doubov.main.MainFragmentModule
         AnotherComponent::class
     ]
 )
-interface MainActivityComponent : AnotherComponentInjections {
+interface SingleActivityComponent : AnotherComponentInjections {
 
-    fun inject(mainActivity: MainActivity)
+    fun inject(singleActivity: SingleActivity)
 
     @Component.Factory
     interface Factory {
-        fun create(anotherComponent: AnotherComponent): MainActivityComponent
+        fun create(anotherComponent: AnotherComponent): SingleActivityComponent
     }
 }

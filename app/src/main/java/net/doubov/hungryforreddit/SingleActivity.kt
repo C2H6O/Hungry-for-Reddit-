@@ -5,12 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import net.doubov.hungryforreddit.di.DaggerMainActivityComponent
+import net.doubov.hungryforreddit.di.DaggerSingleActivityComponent
 import net.doubov.main.MainFragment
 import net.doubov.main.R
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), HasAndroidInjector {
+class SingleActivity : AppCompatActivity(), HasAndroidInjector {
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        DaggerMainActivityComponent
+        DaggerSingleActivityComponent
             .factory()
             .create(App.getApp(this).getAnotherComponent())
             .inject(this)
