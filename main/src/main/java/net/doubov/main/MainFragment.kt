@@ -14,7 +14,6 @@ import net.doubov.api.ApiResponse
 import net.doubov.api.ApiResponseException
 import net.doubov.api.RedditApi
 import net.doubov.core.AppPreferences
-import net.doubov.core.data.responses.AccessTokenResponse
 import net.doubov.main.views.headerView
 import javax.inject.Inject
 
@@ -39,9 +38,6 @@ class MainFragment : Fragment(), CoroutineScope by MainScope() {
         super.onViewCreated(view, savedInstanceState)
 
         launch {
-
-            fetchToken()
-
             when (val newsResponse = withContext(Dispatchers.IO) { redditApi.fetchFrontPage() }) {
                 is ApiResponse.Success -> recyclerView.withModels {
                     newsResponse.data.data.children.forEach { childResponse ->
@@ -60,28 +56,13 @@ class MainFragment : Fragment(), CoroutineScope by MainScope() {
         }
     }
 
-    private suspend fun fetchToken() {
-        if (appPreferences.anonymousAccessToken == null) {
-            println("LX___ requesting anonymousAccessToken!!")
-            val apiResponse: ApiResponse<AccessTokenResponse> =
-                withContext(Dispatchers.IO) { redditApi.fetchAnonymousAccessToken() }
-
-            when (apiResponse) {
-                is ApiResponse.Success -> appPreferences.anonymousAccessToken = apiResponse.data.access_token
-                is ApiResponse.Failure -> showErrorToast(
-                    "Failed to fetch anonymous access token",
-                    apiResponse.exception
-                )
-            }
-        }
-    }
-
     override fun onDestroyView() {
         coroutineContext[Job]?.cancel()
         super.onDestroyView()
     }
 
     private fun showErrorToast(message: String, exception: ApiResponseException) {
+        println("LX___ Error: $message $exception")
         Toast
             .makeText(requireContext(), "$message: $exception", Toast.LENGTH_LONG)
             .show()

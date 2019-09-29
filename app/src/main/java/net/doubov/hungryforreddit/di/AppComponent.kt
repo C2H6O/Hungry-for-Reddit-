@@ -11,6 +11,7 @@ import net.doubov.core.AppPreferences
 import net.doubov.core.di.AppContext
 import net.doubov.core.di.AppScope
 import net.doubov.core.di.SerializationModule
+import net.doubov.core.network.UnauthorizedInterceptor
 import net.doubov.hungryforreddit.App
 import net.doubov.hungryforreddit.di.android.MainActivityModule
 import okhttp3.OkHttpClient
@@ -56,7 +57,11 @@ object AppModule {
 
     @Provides
     @AppScope
-    fun okHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder().build()
+    fun okHttpClient(unauthorizedInterceptor: UnauthorizedInterceptor): OkHttpClient {
+        return OkHttpClient
+            .Builder()
+            // add more interceptors here, before UnauthorizedInterceptor
+            .addInterceptor(unauthorizedInterceptor)
+            .build()
     }
 }

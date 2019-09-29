@@ -1,6 +1,7 @@
 package net.doubov.core
 
 import android.content.Context
+import android.util.Log
 import androidx.core.content.edit
 import net.doubov.core.di.AppContext
 import net.doubov.core.di.AppScope
@@ -15,5 +16,8 @@ class AppPreferences @Inject constructor(@AppContext context: Context) : Prefere
 
     var anonymousAccessToken: String?
         get() = prefs.getString(Keys.ANONYMOUS_ACCESS_TOKEN, null)
-        set(value) = prefs.edit { putString(Keys.ANONYMOUS_ACCESS_TOKEN, value) }
+        set(value) {
+            Log.i("AUTH_TOKEN", "Refreshed ${Keys.ANONYMOUS_ACCESS_TOKEN}: $value")
+            prefs.edit { putString(Keys.ANONYMOUS_ACCESS_TOKEN, value) }
+        }
 }
