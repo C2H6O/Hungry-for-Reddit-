@@ -40,11 +40,11 @@ class MainFragment : Fragment(), CoroutineScope by MainScope() {
         launch {
             when (val newsResponse = withContext(Dispatchers.IO) { redditApi.fetchFrontPage() }) {
                 is ApiResponse.Success -> recyclerView.withModels {
-                    newsResponse.data.data.children.forEach { childResponse ->
+                    newsResponse.data.data.children.map { it.data }.forEach { childResponse ->
                         headerView {
-                            id(childResponse.data.id)
-                            title(childResponse.data.title)
-                            ups(childResponse.data.ups.toString())
+                            id(childResponse.id)
+                            title(childResponse.title)
+                            ups(childResponse.ups.toString())
                         }
                     }
                 }
