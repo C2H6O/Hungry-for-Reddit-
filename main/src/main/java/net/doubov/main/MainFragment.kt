@@ -1,34 +1,21 @@
 package net.doubov.main
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.coroutines.*
 import net.doubov.api.RedditApi
-import net.doubov.core.AppPreferences
 import net.doubov.core.network.ApiResponse
 import net.doubov.core.network.ApiResponseException
 import net.doubov.main.views.headerView
-import javax.inject.Inject
 
-class MainFragment : Fragment(), CoroutineScope by MainScope() {
-
-    @Inject
-    lateinit var appPreferences: AppPreferences
-
-    @Inject
-    lateinit var redditApi: RedditApi
-
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
+class MainFragment(
+    private val redditApi: RedditApi
+) : Fragment(), CoroutineScope by MainScope() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return layoutInflater.inflate(R.layout.fragment_main, container, false)

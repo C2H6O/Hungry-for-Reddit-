@@ -5,7 +5,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.android.AndroidInjectionModule
 import net.doubov.core.di.AnotherScope
-import net.doubov.hungryforreddit.SingleActivity
 
 @AnotherScope
 @Component(
@@ -19,8 +18,6 @@ import net.doubov.hungryforreddit.SingleActivity
     ]
 )
 interface AnotherComponent : AnotherComponentInjections {
-
-    fun inject(singleActivity: SingleActivity)
 
     @Component.Factory
     interface Factory {
