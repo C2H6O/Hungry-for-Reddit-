@@ -48,10 +48,5 @@ dependencies {
     testImplementation 'io.kotlintest:kotlintest-runner-junit5:3.4.1'
     testImplementation "io.mockk:mockk:1.9.3.kotlin12"
 
-    testImplementation "com.google.dagger:dagger:2.25.2"
-    testImplementation "com.google.dagger:dagger-android-support:2.25.2" // if you use the support libraries
-    kaptTest "com.google.dagger:dagger-compiler:2.25.2"
-    kaptTest "com.google.dagger:dagger-android-processor:2.25.2"
-
     testImplementation 'junit:junit:4.12'
 }
