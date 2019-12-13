@@ -1,15 +1,10 @@
 package net.doubov.hungryforreddit
 
 import io.kotlintest.specs.FreeSpec
-import net.doubov.core.data.responses.Kind
-import net.doubov.core.data.responses.ListingData
-import net.doubov.core.data.responses.ListingResponse
-import net.doubov.core.data.responses.T3Data
-import net.doubov.core.data.responses.T3Thing
-import net.doubov.core.data.responses.T5Thing
+import net.doubov.core.data.responses.*
 import net.doubov.core.di.SerializationModule
 import org.junit.Assert
-import java.util.UUID
+import java.util.*
 
 class ListingResponseTest : FreeSpec(body = {
 

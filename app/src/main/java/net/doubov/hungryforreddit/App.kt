@@ -2,7 +2,6 @@ package net.doubov.hungryforreddit
 
 import android.app.Application
 import android.content.Context
-import net.doubov.core.di.SerializationModule
 import net.doubov.hungryforreddit.di.*
 
 open class App : Application() {
@@ -21,7 +20,7 @@ open class App : Application() {
 
     open fun getAppComponent(): AppComponent {
         if (_appComponent == null) {
-            _appComponent = DaggerAppComponent.factory().create(this, AppModule, SerializationModule)
+            _appComponent = DaggerAppComponent.factory().create(this)
         }
         return _appComponent ?: throw IllegalStateException("AppComponent must not be null")
     }

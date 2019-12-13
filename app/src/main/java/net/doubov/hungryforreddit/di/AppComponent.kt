@@ -29,8 +29,8 @@ interface AppComponent : AppComponentInjections {
     interface Factory {
         fun create(
             @BindsInstance app: App,
-            appModule: AppModule,
-            serializationModule: SerializationModule
+            appModule: AppModule = AppModule,
+            serializationModule: SerializationModule = SerializationModule
         ): AppComponent
     }
 }
