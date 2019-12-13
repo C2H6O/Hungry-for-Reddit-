@@ -6,24 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
 import kotlinx.android.synthetic.main.fragment_main_list.*
 import kotlinx.coroutines.*
 import net.doubov.api.RedditApi
 import net.doubov.core.network.ApiResponse
 import net.doubov.core.network.ApiResponseException
 import net.doubov.main.views.headerView
+import javax.inject.Inject
 
-class MainListFragment @AssistedInject constructor(
-    @Assisted private val listener: Listener,
+class MainListFragment @Inject constructor(
+    private val listener: Listener,
     private val redditApi: RedditApi
 ) : Fragment(), CoroutineScope by MainScope() {
-
-    @AssistedInject.Factory
-    interface Factory {
-        fun create(listener: Listener): Fragment
-    }
 
     interface Listener {
         fun onEventReceived(event: Event)
