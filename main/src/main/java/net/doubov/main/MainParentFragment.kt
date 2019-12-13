@@ -18,6 +18,7 @@ class MainParentFragment @Inject constructor(
 
     override fun onAttach(context: Context) {
         component = componentFactory.create()
+        fragmentFactory = MainParentFragmentFactory(this, component)
         childFragmentManager.fragmentFactory = fragmentFactory
         super.onAttach(context)
     }
