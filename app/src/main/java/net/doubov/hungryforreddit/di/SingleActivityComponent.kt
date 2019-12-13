@@ -25,7 +25,6 @@ interface SingleActivityComponent : AnotherComponentInjections {
     interface Factory {
         fun create(
             @BindsInstance singleActivity: SingleActivity,
-            singleActivityModule: FragmentModule = FragmentModule,
             anotherComponent: AnotherComponent
         ): SingleActivityComponent
     }

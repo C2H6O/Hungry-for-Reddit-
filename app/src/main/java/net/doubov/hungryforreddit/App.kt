@@ -2,7 +2,10 @@ package net.doubov.hungryforreddit
 
 import android.app.Application
 import android.content.Context
-import net.doubov.hungryforreddit.di.*
+import net.doubov.hungryforreddit.di.AnotherComponent
+import net.doubov.hungryforreddit.di.AppComponent
+import net.doubov.hungryforreddit.di.DaggerAnotherComponent
+import net.doubov.hungryforreddit.di.DaggerAppComponent
 
 open class App : Application() {
 
@@ -28,7 +31,7 @@ open class App : Application() {
     open fun getAnotherComponent(): AnotherComponent {
         if (_anotherComponent == null) {
             _anotherComponent =
-                DaggerAnotherComponent.factory().create(getAppComponent(), AnotherModule, YetAnotherModule)
+                DaggerAnotherComponent.factory().create(getAppComponent())
         }
         return _anotherComponent ?: throw IllegalStateException("AnotherComponent must not be null")
     }

@@ -19,9 +19,7 @@ interface AnotherComponent : AnotherComponentInjections {
     @Component.Factory
     interface Factory {
         fun create(
-            appComponent: AppComponent,
-            anotherModule: AnotherModule,
-            yetAnotherModule: YetAnotherModule
+            appComponent: AppComponent
         ): AnotherComponent
     }
 }
