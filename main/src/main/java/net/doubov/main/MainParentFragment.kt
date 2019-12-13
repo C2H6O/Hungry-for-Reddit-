@@ -14,17 +14,11 @@ class MainParentFragment @Inject constructor(
 ) : Fragment(), MainListFragment.Listener {
 
     private lateinit var component: MainParentFragmentComponent
+    private lateinit var fragmentFactory: MainParentFragmentFactory
 
     override fun onAttach(context: Context) {
         component = componentFactory.create()
-        childFragmentManager.fragmentFactory = object : FragmentFactory() {
-            override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
-                return when (classLoader.loadClass(className)) {
-                    MainListFragment::class.java -> component.listFragmentFactory().create(this@MainParentFragment)
-                    else -> super.instantiate(classLoader, className)
-                }
-            }
-        }
+        childFragmentManager.fragmentFactory = fragmentFactory
         super.onAttach(context)
     }
 
@@ -38,7 +32,7 @@ class MainParentFragment @Inject constructor(
         if (savedInstanceState == null) {
             childFragmentManager
                 .beginTransaction()
-                .add(R.id.fragmentContainer, component.listFragmentFactory().create(this))
+                .add(R.id.fragmentContainer, fragmentFactory.createListFragmentInstance())
                 .commit()
         }
     }
@@ -46,5 +40,20 @@ class MainParentFragment @Inject constructor(
     override fun onEventReceived(event: MainListFragment.Event) {
         println("onEventReceived: $event")
     }
+}
 
+class MainParentFragmentFactory(
+    private val fragment: MainParentFragment,
+    private val fragmentComponent: MainParentFragmentComponent
+) : FragmentFactory() {
+    override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
+        return when (classLoader.loadClass(className)) {
+            MainListFragment::class.java -> createListFragmentInstance()
+            else -> super.instantiate(classLoader, className)
+        }
+    }
+
+    fun createListFragmentInstance(): MainListFragment {
+        return fragmentComponent.listFragmentFactory().create(fragment) as MainListFragment
+    }
 }
