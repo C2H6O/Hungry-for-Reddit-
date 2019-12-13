@@ -12,8 +12,9 @@ import net.doubov.api.RedditApi
 import net.doubov.core.network.ApiResponse
 import net.doubov.core.network.ApiResponseException
 import net.doubov.main.views.headerView
+import javax.inject.Inject
 
-class MainFragment(
+class MainFragment @Inject constructor(
     private val redditApi: RedditApi
 ) : Fragment(), CoroutineScope by MainScope() {
 

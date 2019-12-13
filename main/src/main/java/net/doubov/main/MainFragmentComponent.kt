@@ -13,10 +13,16 @@ interface MainFragmentComponent : AndroidInjector<MainFragment> {
     interface Factory : AndroidInjector.Factory<MainFragment>
 }
 
-@Module(subcomponents = [MainFragmentComponent::class])
-abstract class MainFragmentModule {
-    @Binds
-    @IntoMap
-    @ClassKey(MainFragment::class)
-    abstract fun bindAndroidInjectorFactory(factory: MainFragmentComponent.Factory): AndroidInjector.Factory<*>
+@Module(
+    subcomponents = [MainFragmentComponent::class],
+    includes = [MainFragmentModule.Bindings::class]
+)
+object MainFragmentModule {
+    @Module
+    interface Bindings {
+        @Binds
+        @IntoMap
+        @ClassKey(MainFragment::class)
+        fun bindAndroidInjectorFactory(factory: MainFragmentComponent.Factory): AndroidInjector.Factory<*>
+    }
 }
