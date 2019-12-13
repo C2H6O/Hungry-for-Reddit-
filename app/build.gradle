@@ -67,4 +67,7 @@ dependencies {
 
     implementation "com.google.dagger:dagger:2.25.2"
     kapt "com.google.dagger:dagger-compiler:2.25.2"
+
+    // debugImplementation because LeakCanary should only run in debug builds.
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0'
 }
