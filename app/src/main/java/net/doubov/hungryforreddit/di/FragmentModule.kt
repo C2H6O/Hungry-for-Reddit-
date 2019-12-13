@@ -7,7 +7,7 @@ import dagger.MapKey
 import dagger.Module
 import dagger.multibindings.IntoMap
 import net.doubov.core.InjectingFragmentFactory
-import net.doubov.main.MainFragment
+import net.doubov.main.MainParentFragment
 import kotlin.reflect.KClass
 
 @Module(includes = [FragmentModule.Bindings::class])
@@ -25,7 +25,7 @@ object FragmentModule {
 
         @Binds
         @IntoMap
-        @FragmentKey(MainFragment::class)
-        fun provideMainFragment(mainFragment: MainFragment): Fragment
+        @FragmentKey(MainParentFragment::class)
+        fun provideMainParentFragment(mainParentFragment: MainParentFragment): Fragment
     }
 }

@@ -13,3 +13,7 @@ annotation class AnotherScope
 @Scope
 @Retention(AnnotationRetention.RUNTIME)
 annotation class ActivityScope
+
+@Scope
+@Retention(AnnotationRetention.RUNTIME)
+annotation class FragmentScope
