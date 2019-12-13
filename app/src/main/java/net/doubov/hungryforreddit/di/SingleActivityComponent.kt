@@ -6,13 +6,11 @@ import dagger.android.AndroidInjectionModule
 import net.doubov.core.di.ActivityScope
 import net.doubov.hungryforreddit.SingleActivity
 import net.doubov.main.MainFragment
-import net.doubov.main.MainFragmentModule
 
 @ActivityScope
 @Component(
     modules = [
         FragmentModule::class,
-        MainFragmentModule::class,
         AndroidInjectionModule::class
     ],
     dependencies = [
