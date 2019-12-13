@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class MainParentFragment @Inject constructor(
     private val componentFactory: MainParentFragmentComponent.Factory
-) : Fragment() {
+) : Fragment(), MainListFragment.Listener {
 
     private lateinit var component: MainParentFragmentComponent
     private lateinit var fragmentFactory: MainParentFragmentFactory
@@ -37,6 +37,10 @@ class MainParentFragment @Inject constructor(
                 .commit()
         }
     }
+
+    override fun onEventReceived(event: MainListFragment.Event) {
+        println("LX___ onEventReceived: $event")
+    }
 }
 
 class MainParentFragmentFactory constructor(
@@ -54,11 +58,7 @@ class MainParentFragmentFactory constructor(
     fun createListFragmentInstance(): MainListFragment {
         return component
             .listFragmentComponentFactory()
-            .create(object : MainListFragment.Listener {
-                override fun onEventReceived(event: MainListFragment.Event) {
-                    println("LX___ onEventReceived! $event $fragment")
-                }
-            })
+            .create(fragment)
             .createMainListFragmentInstance()
     }
 }
