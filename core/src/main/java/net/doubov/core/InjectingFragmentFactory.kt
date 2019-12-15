@@ -2,11 +2,10 @@ package net.doubov.core
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
-import javax.inject.Inject
 import javax.inject.Provider
 
 class InjectingFragmentFactory
-@Inject constructor(
+constructor(
     private val creators: Map<Class<out Fragment>, @JvmSuppressWildcards Provider<Fragment>>
 ) : FragmentFactory() {
 

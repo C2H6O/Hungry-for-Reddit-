@@ -1,4 +1,4 @@
-package net.doubov.main.views
+package net.doubov.hungryforreddit.views
 
 import android.content.Context
 import android.util.AttributeSet
@@ -8,8 +8,8 @@ import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelView
 import com.airbnb.epoxy.TextProp
 import kotlinx.android.synthetic.main.view_main_header.view.*
-import net.doubov.main.R
-import net.doubov.main.R2
+import net.doubov.hungryforreddit.R
+import net.doubov.hungryforreddit.R2
 
 @ModelView(defaultLayout = R2.layout.view_header)
 class HeaderView : ConstraintLayout {
