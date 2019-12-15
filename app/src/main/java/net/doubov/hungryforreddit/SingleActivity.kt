@@ -1,41 +1,20 @@
 package net.doubov.hungryforreddit
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentFactory
+import android.view.ViewGroup
+import com.uber.rib.core.RibActivity
+import com.uber.rib.core.ViewRouter
 import net.doubov.hungryforreddit.di.DaggerSingleActivityComponent
-import net.doubov.hungryforreddit.di.SingleActivityComponent
-import net.doubov.main.R
-import javax.inject.Inject
+import net.doubov.hungryforreddit.ribs.RootBuilder
 
-class SingleActivity : AppCompatActivity() {
+class SingleActivity : RibActivity() {
 
-    @Inject
-    lateinit var fragmentFactory: FragmentFactory
-
-    lateinit var component: SingleActivityComponent
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        component = DaggerSingleActivityComponent
-            .factory()
-            .create(singleActivity = this, anotherComponent = App.getApp(this).getAnotherComponent())
-        component.inject(this)
-
-        supportFragmentManager.fragmentFactory = fragmentFactory
-
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        if (savedInstanceState == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .add(
-                    R.id.fragmentContainer, component
-                        .mainFragmentComponentFactory()
-                        .create()
-                        .createMainParentFragmentInstance()
-                )
-                .commit()
-        }
+    override fun createRouter(parentViewGroup: ViewGroup): ViewRouter<*, *, *> {
+        return RootBuilder(
+            DaggerSingleActivityComponent
+                .factory()
+                .create(singleActivity = this, anotherComponent = App.getApp(this).getAnotherComponent())
+        )
+            .build(parentViewGroup)
     }
+
 }

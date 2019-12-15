@@ -2,6 +2,9 @@ package net.doubov.hungryforreddit
 
 import android.app.Application
 import android.content.Context
+import com.uber.rib.core.RibRefWatcher
+import com.uber.rib.core.RibRefWatcher.ReferenceWatcher
+import leakcanary.AppWatcher
 import net.doubov.hungryforreddit.di.AnotherComponent
 import net.doubov.hungryforreddit.di.AppComponent
 import net.doubov.hungryforreddit.di.DaggerAnotherComponent
@@ -19,6 +22,21 @@ open class App : Application() {
         getAppComponent().inject(this)
 
         println("LX___ App#onCreate()")
+
+        AppWatcher.config = AppWatcher.config.copy(watchDurationMillis = 2000)
+
+        RibRefWatcher.getInstance().setReferenceWatcher(object : ReferenceWatcher {
+            override fun watch(o: Any) {
+                AppWatcher.objectWatcher.watch(o)
+            }
+
+            override fun logBreadcrumb(
+                eventType: String,
+                data: String,
+                parent: String
+            ) { // Ignore for now. Useful for collecting production analytics.
+            }
+        })
     }
 
     open fun getAppComponent(): AppComponent {

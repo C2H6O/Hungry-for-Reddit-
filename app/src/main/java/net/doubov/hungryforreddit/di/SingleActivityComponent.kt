@@ -4,7 +4,6 @@ import dagger.BindsInstance
 import dagger.Component
 import net.doubov.core.di.ActivityScope
 import net.doubov.hungryforreddit.SingleActivity
-import net.doubov.main.MainParentFragmentComponent
 
 @ActivityScope
 @Component(
@@ -18,8 +17,6 @@ import net.doubov.main.MainParentFragmentComponent
 interface SingleActivityComponent : AnotherComponentInjections {
 
     fun inject(singleActivity: SingleActivity)
-
-    fun mainFragmentComponentFactory(): MainParentFragmentComponent.Factory
 
     @Component.Factory
     interface Factory {
