@@ -1,9 +1,10 @@
 package net.doubov.hungryforreddit.di.main
 
+import android.content.Context
 import androidx.activity.addCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
+import androidx.fragment.app.FragmentManager
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
@@ -98,6 +99,7 @@ class MainParentBuilder(
         fun provideRouter(
             activity: SingleActivity,
             fragment: MainParentFragment,
+            fragmentFactory: MainParentFragmentFactory,
             component: MainParentFragmentComponent,
             mainListBuilder: MainListBuilder,
             mainDetailBuilder: MainDetailBuilder
@@ -106,6 +108,7 @@ class MainParentBuilder(
                 activity,
                 component,
                 fragment,
+                fragmentFactory,
                 mainListBuilder,
                 mainDetailBuilder
             )
@@ -128,22 +131,51 @@ class MainParentFragmentFactory @Inject constructor(
 }
 
 class MainParentRouter(
-    activity: AppCompatActivity,
+    val activity: SingleActivity,
     val component: MainParentBuilder.MainParentFragmentComponent,
     val fragment: MainParentFragment,
+    val fragmentFactory: MainParentFragmentFactory,
     private val mainListBuilder: MainListBuilder,
     private val mainDetailBuilder: MainDetailBuilder
 ) {
 
+    private val callback = activity.onBackPressedDispatcher
+        .addCallback(fragment) {
+            if (fragment.childFragmentManager.backStackEntryCount > 0) {
+                fragment.childFragmentManager.popBackStack()
+            }
+        }
+        .also { it.isEnabled = false }
+
     init {
         activity
-            .onBackPressedDispatcher
-            .addCallback(fragment) {
-                if (fragment.childFragmentManager.backStackEntryCount > 0) {
-                    fragment.childFragmentManager.popBackStack()
-                }
-                isEnabled = fragment.childFragmentManager.backStackEntryCount > 1
-            }
+            .supportFragmentManager
+            .registerFragmentLifecycleCallbacks(
+                object : FragmentManager.FragmentLifecycleCallbacks() {
+                    override fun onFragmentPreAttached(fm: FragmentManager, f: Fragment, context: Context) {
+                        if (f == fragment) {
+                            fragment.childFragmentManager.fragmentFactory = fragmentFactory
+                            fragment.childFragmentManager.registerFragmentLifecycleCallbacks(object :
+                                FragmentManager.FragmentLifecycleCallbacks() {
+                                override fun onFragmentAttached(fm: FragmentManager, f: Fragment, context: Context) {
+                                    super.onFragmentAttached(fm, f, context)
+                                    when (f::class) {
+                                        MainDetailFragment::class -> callback.isEnabled = true
+                                    }
+                                }
+
+                                override fun onFragmentDetached(fm: FragmentManager, f: Fragment) {
+                                    super.onFragmentDetached(fm, f)
+                                    when (f::class) {
+                                        MainDetailFragment::class -> callback.isEnabled = false
+                                    }
+                                }
+                            }, true)
+                        }
+                    }
+                },
+                true
+            )
     }
 
     fun goToListFragment() {
@@ -154,6 +186,7 @@ class MainParentRouter(
     }
 
     fun goToDetailFragment(newsDataResponse: NewsDataResponse) {
+        callback.isEnabled = true
         fragment.childFragmentManager
             .beginTransaction()
             .replace(
