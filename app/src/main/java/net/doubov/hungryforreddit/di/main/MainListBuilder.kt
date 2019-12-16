@@ -1,8 +1,7 @@
-package net.doubov.hungryforreddit.di.main.list
+package net.doubov.hungryforreddit.di.main
 
 import androidx.fragment.app.FragmentFactory
 import dagger.*
-import net.doubov.hungryforreddit.di.main.parent.MainParentBuilder
 import net.doubov.main.MainListFragment
 import javax.inject.Scope
 
@@ -18,8 +17,7 @@ class MainListBuilder(
 
         val fragment = MainListFragment()
 
-        val component = DaggerMainListBuilder_MainListFragmentComponent
-            .factory()
+        val component = DaggerMainListBuilder_MainListFragmentComponent.factory()
             .create(dependency, fragment)
 
         component.inject(fragment)
@@ -32,7 +30,8 @@ class MainListBuilder(
         modules = [MainListFragmentModule::class],
         dependencies = [MainParentBuilder.MainParentFragmentComponent::class]
     )
-    interface MainListFragmentComponent : MainListFragmentInjections {
+    interface MainListFragmentComponent :
+        MainListFragmentInjections {
 
         val router: MainListRouter
 

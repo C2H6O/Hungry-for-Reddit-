@@ -1,11 +1,10 @@
-package net.doubov.hungryforreddit.di.main.detail
+package net.doubov.hungryforreddit.di.main
 
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.Provides
 import net.doubov.hungryforreddit.MainDetailFragment
-import net.doubov.hungryforreddit.di.main.parent.MainParentBuilder
 import javax.inject.Scope
 
 @Scope
@@ -27,8 +26,7 @@ class MainDetailBuilder(
     }
 
     private fun buildRouter(fragment: MainDetailFragment): MainDetailRouter {
-        val component = DaggerMainDetailBuilder_MainDetailFragmentComponent
-            .factory()
+        val component = DaggerMainDetailBuilder_MainDetailFragmentComponent.factory()
             .create(dependency, fragment)
 
         component.inject(fragment)
@@ -41,7 +39,8 @@ class MainDetailBuilder(
         modules = [MainDetailFragmentModule::class],
         dependencies = [MainParentBuilder.MainParentFragmentComponent::class]
     )
-    interface MainDetailFragmentComponent : MainDetailFragmentInjections {
+    interface MainDetailFragmentComponent :
+        MainDetailFragmentInjections {
 
         val router: MainDetailRouter
 

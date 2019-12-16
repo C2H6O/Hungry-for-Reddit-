@@ -6,7 +6,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.doubov.hungryforreddit.BaseFragment
 import net.doubov.hungryforreddit.R
-import net.doubov.hungryforreddit.di.main.parent.MainParentRouter
+import net.doubov.hungryforreddit.di.main.MainParentRouter
 import javax.inject.Inject
 
 class MainParentFragment : BaseFragment(R.layout.fragment_main_parent) {

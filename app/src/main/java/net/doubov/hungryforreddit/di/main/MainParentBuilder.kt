@@ -1,4 +1,4 @@
-package net.doubov.hungryforreddit.di.main.parent
+package net.doubov.hungryforreddit.di.main
 
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -13,8 +13,6 @@ import net.doubov.hungryforreddit.MainDetailFragment
 import net.doubov.hungryforreddit.R
 import net.doubov.hungryforreddit.SingleActivity
 import net.doubov.hungryforreddit.di.RootBuilder
-import net.doubov.hungryforreddit.di.main.detail.MainDetailBuilder
-import net.doubov.hungryforreddit.di.main.list.MainListBuilder
 import net.doubov.main.MainListFragment
 import net.doubov.main.MainParentFragment
 import java.util.*
@@ -33,8 +31,7 @@ class MainParentBuilder(
 
         val fragment = MainParentFragment()
 
-        val component: MainParentFragmentComponent = DaggerMainParentBuilder_MainParentFragmentComponent
-            .factory()
+        val component: MainParentFragmentComponent = DaggerMainParentBuilder_MainParentFragmentComponent.factory()
             .create(dependency, fragment)
 
         component.inject(fragment)
@@ -47,7 +44,8 @@ class MainParentBuilder(
         modules = [MainParentFragmentModule::class],
         dependencies = [RootBuilder.SingleActivityComponent::class]
     )
-    interface MainParentFragmentComponent : MainParentFragmentInjections {
+    interface MainParentFragmentComponent :
+        MainParentFragmentInjections {
 
         fun inject(fragment: MainParentFragment)
 
@@ -104,7 +102,13 @@ class MainParentBuilder(
             mainListBuilder: MainListBuilder,
             mainDetailBuilder: MainDetailBuilder
         ): MainParentRouter {
-            return MainParentRouter(activity, component, fragment, mainListBuilder, mainDetailBuilder)
+            return MainParentRouter(
+                activity,
+                component,
+                fragment,
+                mainListBuilder,
+                mainDetailBuilder
+            )
         }
     }
 
