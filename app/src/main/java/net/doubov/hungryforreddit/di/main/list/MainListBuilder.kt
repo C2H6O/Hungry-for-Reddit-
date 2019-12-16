@@ -4,7 +4,6 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import net.doubov.hungryforreddit.Router
 import net.doubov.hungryforreddit.di.main.parent.MainParentBuilder
 import net.doubov.main.MainListFragment
 import javax.inject.Scope
@@ -35,7 +34,7 @@ class MainListBuilder(
         modules = [MainListFragmentModule::class],
         dependencies = [MainParentBuilder.MainParentFragmentComponent::class]
     )
-    interface MainListFragmentComponent : Provisions {
+    interface MainListFragmentComponent : MainListFragmentInjections {
 
         val router: MainListRouter
 
@@ -50,7 +49,7 @@ class MainListBuilder(
         }
     }
 
-    interface Provisions : MainParentBuilder.Provisions
+    interface MainListFragmentInjections : MainParentBuilder.MainParentFragmentInjections
 
     @Module
     object MainListFragmentModule {
@@ -64,6 +63,6 @@ class MainListBuilder(
 }
 
 class MainListRouter(
-    component: MainListBuilder.MainListFragmentComponent,
-    fragment: MainListFragment
-) : Router<MainListBuilder.MainListFragmentComponent, MainListFragment>(component, fragment)
+    val component: MainListBuilder.MainListFragmentComponent,
+    val fragment: MainListFragment
+)

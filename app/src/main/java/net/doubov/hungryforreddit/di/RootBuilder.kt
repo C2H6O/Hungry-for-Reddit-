@@ -1,4 +1,4 @@
-package net.doubov.hungryforreddit.di.main
+package net.doubov.hungryforreddit.di
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
@@ -7,8 +7,6 @@ import dagger.Component
 import net.doubov.core.di.ActivityScope
 import net.doubov.hungryforreddit.R
 import net.doubov.hungryforreddit.SingleActivity
-import net.doubov.hungryforreddit.di.AnotherComponent
-import net.doubov.hungryforreddit.di.AnotherComponentInjections
 import net.doubov.hungryforreddit.di.main.parent.MainParentBuilder
 import net.doubov.main.MainParentFragment
 
@@ -19,7 +17,8 @@ class RootBuilder(
 
     fun build(): RootRouter {
         val parentBuilder = MainParentBuilder(component)
-        singleActivity.supportFragmentManager.fragmentFactory = RootFragmentFactory(parentBuilder)
+        singleActivity.supportFragmentManager.fragmentFactory =
+            RootFragmentFactory(parentBuilder)
         return RootRouter(singleActivity, parentBuilder)
     }
 
@@ -29,7 +28,8 @@ class RootBuilder(
             AnotherComponent::class
         ]
     )
-    interface SingleActivityComponent : Provisions {
+    interface SingleActivityComponent :
+        SingleActivityInjections {
 
         fun inject(singleActivity: SingleActivity)
 
@@ -42,7 +42,7 @@ class RootBuilder(
         }
     }
 
-    interface Provisions : AnotherComponentInjections
+    interface SingleActivityInjections : AnotherComponentInjections
 
 }
 

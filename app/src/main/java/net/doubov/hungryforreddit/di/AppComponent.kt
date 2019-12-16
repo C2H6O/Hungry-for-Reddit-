@@ -12,7 +12,6 @@ import net.doubov.core.di.AppScope
 import net.doubov.core.di.SerializationModule
 import net.doubov.core.network.interceptors.UnauthorizedInterceptor
 import net.doubov.hungryforreddit.App
-import net.doubov.hungryforreddit.DependenciesComponent
 import okhttp3.OkHttpClient
 
 @AppScope
@@ -55,7 +54,7 @@ object AppModule {
     }
 }
 
-interface AppComponentInjections : DependenciesComponent {
+interface AppComponentInjections {
 
     fun redditApi(): RedditApi
     @AppContext

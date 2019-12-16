@@ -3,17 +3,17 @@ package net.doubov.main
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
-import kotlinx.coroutines.CoroutineScope
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import net.doubov.hungryforreddit.BaseFragment
 import net.doubov.hungryforreddit.R
 import net.doubov.hungryforreddit.di.main.parent.MainParentFragmentFactory
 import net.doubov.hungryforreddit.di.main.parent.MainParentRouter
 import javax.inject.Inject
 
-class MainParentFragment : Fragment(R.layout.fragment_main_parent), CoroutineScope by MainScope() {
+class MainParentFragment : BaseFragment(R.layout.fragment_main_parent) {
 
     @Inject
     lateinit var router: MainParentRouter
@@ -24,8 +24,19 @@ class MainParentFragment : Fragment(R.layout.fragment_main_parent), CoroutineSco
     @Inject
     lateinit var mainListChannel: MainListFragment.MainListChannel
 
+    lateinit var onBackPressedCallback: OnBackPressedCallback
+
     override fun onAttach(context: Context) {
         childFragmentManager.fragmentFactory = fragmentFactory
+
+        onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            println("LX___ count: ${childFragmentManager.backStackEntryCount}")
+            if (childFragmentManager.backStackEntryCount > 0) {
+                childFragmentManager.popBackStack()
+            }
+            onBackPressedCallback.isEnabled = childFragmentManager.backStackEntryCount > 1
+        }
+
         super.onAttach(context)
     }
 
@@ -40,11 +51,11 @@ class MainParentFragment : Fragment(R.layout.fragment_main_parent), CoroutineSco
     override fun onStart() {
         super.onStart()
 
-        println("LX___ mainListChannel: $mainListChannel")
-
         launch {
             for (event in mainListChannel.channel) {
-                println("LX___ event!! $event")
+                when (event) {
+                    is MainListFragment.Event.OnItemSelected -> router.goToDetailFragment(event.newsDataResponse)
+                }
             }
         }
 

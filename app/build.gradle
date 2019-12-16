@@ -8,6 +8,10 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'com.jakewharton.butterknife'
 
+androidExtensions {
+    experimental = true
+}
+
 kapt {
     correctErrorTypes = true
 }

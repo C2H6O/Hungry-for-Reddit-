@@ -1,32 +1,28 @@
 package net.doubov.main
 
 import android.os.Bundle
-import android.os.Looper
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_main_list.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import net.doubov.api.RedditApi
+import net.doubov.api.models.NewsDataResponse
 import net.doubov.core.network.ApiResponse
 import net.doubov.core.network.ApiResponseException
+import net.doubov.hungryforreddit.BaseFragment
 import net.doubov.hungryforreddit.R
 import net.doubov.hungryforreddit.views.headerView
 import javax.inject.Inject
 
-fun ensureMainThread() {
-    if (Thread.currentThread() != Looper.getMainLooper().thread) {
-        throw IllegalStateException("Must be executed on the Main Thread")
-    }
-}
-
-class MainListFragment : Fragment(), CoroutineScope by MainScope() {
+class MainListFragment : BaseFragment(R.layout.fragment_main_list) {
 
     @Inject
     lateinit var eventsChannel: MainListChannel
+
     @Inject
     lateinit var redditApi: RedditApi
 
@@ -35,11 +31,7 @@ class MainListFragment : Fragment(), CoroutineScope by MainScope() {
     }
 
     sealed class Event {
-        data class OnItemSelected(val position: Int) : Event()
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return layoutInflater.inflate(R.layout.fragment_main_list, container, false)
+        data class OnItemSelected(val newsDataResponse: NewsDataResponse) : Event()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,7 +39,7 @@ class MainListFragment : Fragment(), CoroutineScope by MainScope() {
         launch {
             when (val newsResponse = withContext(Dispatchers.IO) { redditApi.fetchFrontPage() }) {
                 is ApiResponse.Success -> {
-                    ensureMainThread()
+                    println("LX___ received data... $newsResponse")
                     recyclerView.withModels {
                         newsResponse.data.data.children.map { it.data }.forEachIndexed { index, childResponse ->
                             headerView {
@@ -58,7 +50,7 @@ class MainListFragment : Fragment(), CoroutineScope by MainScope() {
                                     // TODO: fix this with more idiomatic code
                                     View.OnClickListener {
                                         GlobalScope.launch(Dispatchers.Main) {
-                                            eventsChannel.channel.send(Event.OnItemSelected(index))
+                                            eventsChannel.channel.send(Event.OnItemSelected(childResponse))
                                         }
                                     }
                                 )
@@ -67,7 +59,6 @@ class MainListFragment : Fragment(), CoroutineScope by MainScope() {
                     }
                 }
                 is ApiResponse.Failure -> {
-                    ensureMainThread()
                     showErrorToast(
                         "Failed to fetch NewsReponse",
                         newsResponse.exception
@@ -78,7 +69,7 @@ class MainListFragment : Fragment(), CoroutineScope by MainScope() {
     }
 
     override fun onDestroyView() {
-        coroutineContext[Job]?.cancel()
+        recyclerView.adapter = null
         super.onDestroyView()
     }
 

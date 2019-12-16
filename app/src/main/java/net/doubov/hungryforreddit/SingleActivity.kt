@@ -2,9 +2,9 @@ package net.doubov.hungryforreddit
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import net.doubov.hungryforreddit.di.main.DaggerRootBuilder_SingleActivityComponent
-import net.doubov.hungryforreddit.di.main.RootBuilder
-import net.doubov.hungryforreddit.di.main.RootRouter
+import net.doubov.hungryforreddit.di.DaggerRootBuilder_SingleActivityComponent
+import net.doubov.hungryforreddit.di.RootBuilder
+import net.doubov.hungryforreddit.di.RootRouter
 
 class SingleActivity : AppCompatActivity() {
 
