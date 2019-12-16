@@ -14,7 +14,6 @@ import net.doubov.api.RedditApi
 import net.doubov.core.network.ApiResponse
 import net.doubov.core.network.ApiResponseException
 import net.doubov.hungryforreddit.R
-import net.doubov.hungryforreddit.di.main.parent.MainParentScope
 import net.doubov.hungryforreddit.views.headerView
 import javax.inject.Inject
 
@@ -31,8 +30,7 @@ class MainListFragment : Fragment(), CoroutineScope by MainScope() {
     @Inject
     lateinit var redditApi: RedditApi
 
-    @MainParentScope
-    class MainListChannel @Inject constructor() {
+    class MainListChannel {
         val channel = Channel<Event>()
     }
 
