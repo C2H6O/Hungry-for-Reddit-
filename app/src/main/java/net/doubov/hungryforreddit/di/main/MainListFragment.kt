@@ -14,6 +14,7 @@ import net.doubov.api.RedditApi
 import net.doubov.core.network.ApiResponse
 import net.doubov.core.network.ApiResponseException
 import net.doubov.hungryforreddit.R
+import net.doubov.hungryforreddit.di.main.parent.MainParentScope
 import net.doubov.hungryforreddit.views.headerView
 import javax.inject.Inject
 
@@ -30,7 +31,8 @@ class MainListFragment : Fragment(), CoroutineScope by MainScope() {
     @Inject
     lateinit var redditApi: RedditApi
 
-    class MainListChannel {
+    @MainParentScope
+    class MainListChannel @Inject constructor() {
         val channel = Channel<Event>()
     }
 
@@ -57,8 +59,9 @@ class MainListFragment : Fragment(), CoroutineScope by MainScope() {
                                 clickListener(
                                     // TODO: fix this with more idiomatic code
                                     View.OnClickListener {
-                                        launch { eventsChannel.channel.send(Event.OnItemSelected(index)) }
-
+                                        GlobalScope.launch(Dispatchers.Main) {
+                                            eventsChannel.channel.send(Event.OnItemSelected(index))
+                                        }
                                     }
                                 )
                             }
