@@ -1,5 +1,7 @@
 package net.doubov.hungryforreddit.di.main.parent
 
+import androidx.activity.addCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import dagger.BindsInstance
@@ -9,11 +11,13 @@ import dagger.Provides
 import net.doubov.api.models.NewsDataResponse
 import net.doubov.hungryforreddit.MainDetailFragment
 import net.doubov.hungryforreddit.R
+import net.doubov.hungryforreddit.SingleActivity
 import net.doubov.hungryforreddit.di.RootBuilder
 import net.doubov.hungryforreddit.di.main.detail.MainDetailBuilder
 import net.doubov.hungryforreddit.di.main.list.MainListBuilder
 import net.doubov.main.MainListFragment
 import net.doubov.main.MainParentFragment
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Scope
 
@@ -67,6 +71,15 @@ class MainParentBuilder(
 
         @Provides
         @MainParentScope
+        fun provideOptionalFragmentFactory(
+            mainParentFragmentFactory: MainParentFragmentFactory
+        ): Optional<FragmentFactory> {
+            return Optional.of(mainParentFragmentFactory)
+        }
+
+
+        @Provides
+        @MainParentScope
         fun provideMainListEvents(): MainListFragment.MainListChannel {
             return MainListFragment.MainListChannel()
         }
@@ -86,12 +99,13 @@ class MainParentBuilder(
         @Provides
         @MainParentScope
         fun provideRouter(
+            activity: SingleActivity,
             fragment: MainParentFragment,
             component: MainParentFragmentComponent,
             mainListBuilder: MainListBuilder,
             mainDetailBuilder: MainDetailBuilder
         ): MainParentRouter {
-            return MainParentRouter(component, fragment, mainListBuilder, mainDetailBuilder)
+            return MainParentRouter(activity, component, fragment, mainListBuilder, mainDetailBuilder)
         }
     }
 
@@ -111,11 +125,23 @@ class MainParentFragmentFactory @Inject constructor(
 }
 
 class MainParentRouter(
+    activity: AppCompatActivity,
     val component: MainParentBuilder.MainParentFragmentComponent,
     val fragment: MainParentFragment,
     private val mainListBuilder: MainListBuilder,
     private val mainDetailBuilder: MainDetailBuilder
 ) {
+
+    init {
+        activity
+            .onBackPressedDispatcher
+            .addCallback(fragment) {
+                if (fragment.childFragmentManager.backStackEntryCount > 0) {
+                    fragment.childFragmentManager.popBackStack()
+                }
+                isEnabled = fragment.childFragmentManager.backStackEntryCount > 1
+            }
+    }
 
     fun goToListFragment() {
         fragment.childFragmentManager

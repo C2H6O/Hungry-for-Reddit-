@@ -39,7 +39,6 @@ class MainListFragment : BaseFragment(R.layout.fragment_main_list) {
         launch {
             when (val newsResponse = withContext(Dispatchers.IO) { redditApi.fetchFrontPage() }) {
                 is ApiResponse.Success -> {
-                    println("LX___ received data... $newsResponse")
                     recyclerView.withModels {
                         newsResponse.data.data.children.map { it.data }.forEachIndexed { index, childResponse ->
                             headerView {

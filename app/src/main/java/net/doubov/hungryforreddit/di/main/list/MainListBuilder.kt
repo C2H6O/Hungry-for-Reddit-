@@ -1,9 +1,7 @@
 package net.doubov.hungryforreddit.di.main.list
 
-import dagger.BindsInstance
-import dagger.Component
-import dagger.Module
-import dagger.Provides
+import androidx.fragment.app.FragmentFactory
+import dagger.*
 import net.doubov.hungryforreddit.di.main.parent.MainParentBuilder
 import net.doubov.main.MainListFragment
 import javax.inject.Scope
@@ -51,8 +49,15 @@ class MainListBuilder(
 
     interface MainListFragmentInjections : MainParentBuilder.MainParentFragmentInjections
 
-    @Module
+    @Module(includes = [MainListFragmentModule.Bindings::class])
     object MainListFragmentModule {
+
+        @Module
+        interface Bindings {
+            @BindsOptionalOf
+            fun bindFragmentFactory(): FragmentFactory
+        }
+
         @Provides
         @MainListScope
         fun provideRouter(fragment: MainListFragment, component: MainListFragmentComponent): MainListRouter {

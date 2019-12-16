@@ -42,7 +42,9 @@ class RootBuilder(
         }
     }
 
-    interface SingleActivityInjections : AnotherComponentInjections
+    interface SingleActivityInjections : AnotherComponentInjections {
+        fun activity(): SingleActivity
+    }
 
 }
 
