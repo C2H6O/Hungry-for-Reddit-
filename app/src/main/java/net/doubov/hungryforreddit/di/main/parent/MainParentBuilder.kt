@@ -25,7 +25,6 @@ import javax.inject.Scope
 @Retention(AnnotationRetention.RUNTIME)
 annotation class MainParentScope
 
-@MainParentScope
 class MainParentBuilder(
     private val dependency: RootBuilder.SingleActivityComponent
 ) {
