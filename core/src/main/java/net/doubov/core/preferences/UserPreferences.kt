@@ -1,4 +1,4 @@
-package net.doubov.core
+package net.doubov.core.preferences
 
 import android.content.Context
 import androidx.core.content.edit

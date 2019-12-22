@@ -3,10 +3,10 @@ package net.doubov.api
 import kotlinx.serialization.json.Json
 import net.doubov.api.RedditApi.Url.OAUTH
 import net.doubov.api.models.NewsResponse
-import net.doubov.core.AppPreferences
 import net.doubov.core.di.AppScope
 import net.doubov.core.network.ApiResponse
 import net.doubov.core.network.ApiResponseException
+import net.doubov.core.preferences.AppPreferences
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import javax.inject.Inject
