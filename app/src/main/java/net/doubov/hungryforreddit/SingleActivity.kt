@@ -8,8 +8,8 @@ import net.doubov.hungryforreddit.di.RootRouter
 
 class SingleActivity : AppCompatActivity() {
 
-    lateinit var rootBuilder: RootBuilder
-    lateinit var rootRouter: RootRouter
+    private lateinit var rootBuilder: RootBuilder
+    private lateinit var rootRouter: RootRouter
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
