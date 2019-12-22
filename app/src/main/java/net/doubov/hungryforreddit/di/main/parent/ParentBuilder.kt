@@ -28,7 +28,7 @@ class ParentBuilder(
 
         component.inject(fragment)
 
-        return component.parentRouter
+        return component.parentRouter()
     }
 
     @MainParentScope
@@ -51,7 +51,7 @@ class ParentBuilder(
 
     interface ParentFragmentInjections : SingleActivityBuilder.SingleActivityInjections {
         fun provideListChannel(): ListFragment.ListChannel
-        val parentRouter: ParentRouter
+        fun parentRouter(): ParentRouter
     }
 
     @Module(includes = [ParentFragmentModule.Bindings::class])

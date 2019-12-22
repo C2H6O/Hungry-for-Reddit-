@@ -33,7 +33,7 @@ class DetailBuilder(
 
         component.inject(fragment)
 
-        return component.detailRouter
+        return component.detailRouter()
     }
 
     @MainDetailScope
@@ -42,8 +42,6 @@ class DetailBuilder(
         dependencies = [ParentBuilder.ParentFragmentComponent::class]
     )
     interface DetailFragmentComponent : DetailFragmentInjections {
-
-        val detailRouter: DetailRouter
 
         fun inject(fragment: DetailFragment)
 
@@ -56,7 +54,9 @@ class DetailBuilder(
         }
     }
 
-    interface DetailFragmentInjections : ParentBuilder.ParentFragmentInjections
+    interface DetailFragmentInjections : ParentBuilder.ParentFragmentInjections {
+        fun detailRouter(): DetailRouter
+    }
 
     @Module(includes = [DetailFragmentModule.Bindings::class])
     object DetailFragmentModule {

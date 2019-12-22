@@ -22,7 +22,7 @@ class SingleActivityBuilder(
 
         component.inject(singleActivity)
 
-        return component.singleActivityRouter
+        return component.singleActivityRouter()
     }
 
     @ActivityScope
@@ -66,7 +66,7 @@ class SingleActivityBuilder(
 
     interface SingleActivityInjections : AnotherComponentInjections {
         fun activity(): SingleActivity
-        val singleActivityRouter: SingleActivityRouter
+        fun singleActivityRouter(): SingleActivityRouter
     }
 
 }

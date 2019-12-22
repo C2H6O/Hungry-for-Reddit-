@@ -26,7 +26,7 @@ class ListBuilder(
 
         component.inject(fragment)
 
-        return component.listRouter
+        return component.listRouter()
     }
 
     @MainListScope
@@ -35,8 +35,6 @@ class ListBuilder(
         dependencies = [ParentBuilder.ParentFragmentComponent::class]
     )
     interface ListFragmentComponent : ListFragmentInjections {
-
-        val listRouter: ListRouter
 
         fun inject(fragment: ListFragment)
 
@@ -49,7 +47,9 @@ class ListBuilder(
         }
     }
 
-    interface ListFragmentInjections : ParentBuilder.ParentFragmentInjections
+    interface ListFragmentInjections : ParentBuilder.ParentFragmentInjections {
+        fun listRouter(): ListRouter
+    }
 
     @Module(includes = [ListFragmentModule.Bindings::class])
     object ListFragmentModule {
