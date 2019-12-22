@@ -117,8 +117,7 @@ class ParentFragmentFactory @Inject constructor(
 
 @MainParentScope
 class ParentRouterImpl @Inject constructor(
-    val activity: SingleActivity,
-    val component: ParentBuilder.ParentFragmentComponent,
+    activity: SingleActivity,
     override val fragment: ParentFragment,
     val fragmentFactory: ParentFragmentFactory,
     private val listBuilder: ListBuilder,

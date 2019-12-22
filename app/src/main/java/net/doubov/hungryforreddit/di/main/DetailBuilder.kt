@@ -72,6 +72,5 @@ class DetailBuilder(
 
 @MainDetailScope
 class DetailRouterImpl @Inject constructor(
-    val component: DetailBuilder.DetailFragmentComponent,
     override val fragment: DetailFragment
 ) : DetailRouter

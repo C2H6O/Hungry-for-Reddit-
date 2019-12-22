@@ -65,6 +65,5 @@ class ListBuilder(
 
 @MainListScope
 class ListRouterImpl @Inject constructor(
-    val component: ListBuilder.ListFragmentComponent,
     override val fragment: ListFragment
 ) : ListRouter
