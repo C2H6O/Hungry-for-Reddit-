@@ -1,16 +1,17 @@
-package net.doubov.hungryforreddit
+package net.doubov.hungryforreddit.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentFactory
-import net.doubov.hungryforreddit.di.RootRouter
+import net.doubov.hungryforreddit.App
+import net.doubov.hungryforreddit.R
 import net.doubov.hungryforreddit.di.SingleActivityBuilder
 import javax.inject.Inject
 
 class SingleActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var router: RootRouter
+    lateinit var router: SingleActivityRouter
 
     @Inject
     lateinit var fragmentFactory: FragmentFactory

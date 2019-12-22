@@ -1,12 +1,13 @@
-package net.doubov.hungryforreddit.di.main
+package net.doubov.hungryforreddit.di.main.detail
 
 import dagger.Binds
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
+import net.doubov.hungryforreddit.di.main.DaggerDetailBuilder_DetailFragmentComponent
+import net.doubov.hungryforreddit.di.main.parent.ParentBuilder
 import net.doubov.main.DetailFragment
 import net.doubov.main.routers.DetailRouter
-import javax.inject.Inject
 import javax.inject.Scope
 
 @Scope
@@ -69,8 +70,3 @@ class DetailBuilder(
     }
 
 }
-
-@MainDetailScope
-class DetailRouterImpl @Inject constructor(
-    override val fragment: DetailFragment
-) : DetailRouter

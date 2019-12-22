@@ -1,21 +1,20 @@
 package net.doubov.hungryforreddit.di
 
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import dagger.*
 import net.doubov.core.di.ActivityScope
-import net.doubov.hungryforreddit.R
-import net.doubov.hungryforreddit.SingleActivity
-import net.doubov.hungryforreddit.di.main.ParentBuilder
-import net.doubov.main.ParentFragment
-import javax.inject.Inject
+import net.doubov.hungryforreddit.activity.SingleActivity
+import net.doubov.hungryforreddit.activity.SingleActivityFragmentFactory
+import net.doubov.hungryforreddit.activity.SingleActivityRouter
+import net.doubov.hungryforreddit.activity.SingleActivityRouterImpl
+import net.doubov.hungryforreddit.di.main.parent.ParentBuilder
 
 class SingleActivityBuilder(
     private val singleActivity: SingleActivity,
     private val anotherComponent: AnotherComponent
 ) {
 
-    fun build(): RootRouter {
+    fun build(): SingleActivityRouter {
 
         val component: SingleActivityComponent = DaggerSingleActivityBuilder_SingleActivityComponent
             .factory()
@@ -23,7 +22,7 @@ class SingleActivityBuilder(
 
         component.inject(singleActivity)
 
-        return component.rootRouter
+        return component.singleActivityRouter
     }
 
     @ActivityScope
@@ -52,10 +51,10 @@ class SingleActivityBuilder(
         @Module
         interface Bindings {
             @Binds
-            fun provideFragmentFactory(rootFragmentFactory: RootFragmentFactory): FragmentFactory
+            fun provideFragmentFactory(singleActivityFragmentFactory: SingleActivityFragmentFactory): FragmentFactory
 
             @Binds
-            fun provideRootRouter(rootRouterImpl: RootRouterImpl): RootRouter
+            fun provideRootRouter(rootRouterImpl: SingleActivityRouterImpl): SingleActivityRouter
         }
 
         @Provides
@@ -67,41 +66,7 @@ class SingleActivityBuilder(
 
     interface SingleActivityInjections : AnotherComponentInjections {
         fun activity(): SingleActivity
-        val rootRouter: RootRouter
+        val singleActivityRouter: SingleActivityRouter
     }
 
-}
-
-@ActivityScope
-class RootFragmentFactory @Inject constructor(
-    private val parentBuilder: ParentBuilder
-) : FragmentFactory() {
-    override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
-        return when (classLoader.loadClass(className)) {
-            ParentFragment::class.java -> parentBuilder.build().fragment
-            else -> super.instantiate(classLoader, className)
-        }
-    }
-}
-
-interface RootRouter {
-    fun goToMainParentFragment()
-}
-
-@ActivityScope
-class RootRouterImpl @Inject constructor(
-    private val activity: SingleActivity,
-    private val parentBuilder: ParentBuilder
-) : RootRouter {
-
-    override fun goToMainParentFragment() {
-        activity
-            .supportFragmentManager
-            .beginTransaction()
-            .add(
-                R.id.fragmentContainer,
-                parentBuilder.build().fragment
-            )
-            .commit()
-    }
 }
