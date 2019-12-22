@@ -5,6 +5,7 @@ import android.view.View
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.doubov.core.ui.BaseFragment
+import net.doubov.main.routers.ParentRouter
 import javax.inject.Inject
 
 class ParentFragment : BaseFragment(R.layout.fragment_main_parent) {

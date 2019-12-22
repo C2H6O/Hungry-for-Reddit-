@@ -1,10 +1,12 @@
 package net.doubov.hungryforreddit.di.main
 
+import dagger.Binds
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
-import dagger.Provides
 import net.doubov.main.ListFragment
+import net.doubov.main.routers.ListRouter
+import javax.inject.Inject
 import javax.inject.Scope
 
 @Scope
@@ -50,19 +52,19 @@ class ListBuilder(
 
     interface ListFragmentInjections : ParentBuilder.ParentFragmentInjections
 
-    @Module
+    @Module(includes = [ListFragmentModule.Bindings::class])
     object ListFragmentModule {
-
-        @Provides
-        @MainListScope
-        fun provideRouter(fragment: ListFragment, component: ListFragmentComponent): ListRouter {
-            return ListRouter(component, fragment)
+        @Module
+        interface Bindings {
+            @Binds
+            fun bindListRouter(listRouterImpl: ListRouterImpl): ListRouter
         }
     }
 
 }
 
-class ListRouter(
+@MainListScope
+class ListRouterImpl @Inject constructor(
     val component: ListBuilder.ListFragmentComponent,
-    val fragment: ListFragment
-)
+    override val fragment: ListFragment
+) : ListRouter

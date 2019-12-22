@@ -13,7 +13,7 @@ import net.doubov.hungryforreddit.di.RootBuilder
 import net.doubov.main.DetailFragment
 import net.doubov.main.ListFragment
 import net.doubov.main.ParentFragment
-import net.doubov.main.ParentRouter
+import net.doubov.main.routers.ParentRouter
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Scope
