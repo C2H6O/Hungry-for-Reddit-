@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_main_list.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -25,8 +24,12 @@ class ListFragment : BaseFragment(R.layout.fragment_main_list) {
     @Inject
     lateinit var redditApi: RedditApi
 
+    private val clickListener = { item: NewsDataResponse ->
+        launch { eventsChannel.channel.send(Event.OnItemSelected(item)) }
+    }
+
     class ListChannel {
-        val channel = Channel<Event>()
+        val channel = Channel<Event>(Channel.BUFFERED)
     }
 
     sealed class Event {
@@ -35,6 +38,7 @@ class ListFragment : BaseFragment(R.layout.fragment_main_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         launch {
             when (val newsResponse = withContext(Dispatchers.IO) { redditApi.fetchFrontPage() }) {
                 is ApiResponse.Success -> {
@@ -44,18 +48,7 @@ class ListFragment : BaseFragment(R.layout.fragment_main_list) {
                                 id(childResponse.id)
                                 title(childResponse.title)
                                 ups(childResponse.ups.toString())
-                                clickListener(
-                                    // TODO: fix this with more idiomatic code
-                                    View.OnClickListener {
-                                        GlobalScope.launch(Dispatchers.Main) {
-                                            eventsChannel.channel.send(
-                                                Event.OnItemSelected(
-                                                    childResponse
-                                                )
-                                            )
-                                        }
-                                    }
-                                )
+                                clickListener(View.OnClickListener { clickListener(childResponse) })
                             }
                         }
                     }
@@ -68,6 +61,7 @@ class ListFragment : BaseFragment(R.layout.fragment_main_list) {
                 }
             }
         }
+
     }
 
     override fun onDestroyView() {
