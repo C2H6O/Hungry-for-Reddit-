@@ -17,7 +17,7 @@ class SingleActivity : AppCompatActivity() {
     lateinit var fragmentFactory: FragmentFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val rootBuilder = SingleActivityBuilder(this, App.getApp(this).getAnotherComponent())
+        val rootBuilder = SingleActivityBuilder(this, App.getApp(this).getAppComponent())
         rootBuilder.build()
 
         supportFragmentManager.fragmentFactory = fragmentFactory

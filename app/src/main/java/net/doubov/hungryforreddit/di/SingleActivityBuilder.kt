@@ -11,14 +11,14 @@ import net.doubov.hungryforreddit.di.main.parent.ParentBuilder
 
 class SingleActivityBuilder(
     private val singleActivity: SingleActivity,
-    private val anotherComponent: AnotherComponent
+    private val appComponent: AppComponent
 ) {
 
     fun build(): SingleActivityRouter {
 
         val component: SingleActivityComponent = DaggerSingleActivityBuilder_SingleActivityComponent
             .factory()
-            .create(singleActivity, anotherComponent)
+            .create(singleActivity, appComponent)
 
         component.inject(singleActivity)
 
@@ -29,7 +29,7 @@ class SingleActivityBuilder(
     @Component(
         modules = [SingleActivityModule::class],
         dependencies = [
-            AnotherComponent::class
+            AppComponent::class
         ]
     )
     interface SingleActivityComponent : SingleActivityInjections {
@@ -40,7 +40,7 @@ class SingleActivityBuilder(
         interface Factory {
             fun create(
                 @BindsInstance singleActivity: SingleActivity,
-                anotherComponent: AnotherComponent
+                appComponent: AppComponent
             ): SingleActivityComponent
         }
     }
@@ -64,7 +64,7 @@ class SingleActivityBuilder(
         }
     }
 
-    interface SingleActivityInjections : AnotherComponentInjections {
+    interface SingleActivityInjections : AppComponentInjections {
         fun activity(): SingleActivity
         fun singleActivityRouter(): SingleActivityRouter
     }
