@@ -29,7 +29,7 @@ class ListFragment : BaseFragment(R.layout.fragment_main_list) {
     }
 
     class ListChannel {
-        val channel = Channel<Event>(Channel.BUFFERED)
+        val channel = Channel<Event>()
     }
 
     sealed class Event {
@@ -70,7 +70,6 @@ class ListFragment : BaseFragment(R.layout.fragment_main_list) {
     }
 
     private fun showErrorToast(message: String, exception: ApiResponseException) {
-        println("LX___ Error: $message $exception")
         Toast
             .makeText(requireContext(), "$message: $exception", Toast.LENGTH_LONG)
             .show()
