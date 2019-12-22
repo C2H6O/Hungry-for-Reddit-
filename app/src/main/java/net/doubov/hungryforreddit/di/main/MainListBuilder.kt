@@ -4,7 +4,7 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import net.doubov.main.MainListFragment
+import net.doubov.hungryforreddit.MainListFragment
 import javax.inject.Scope
 
 @Scope

@@ -10,12 +10,8 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 import net.doubov.api.models.NewsDataResponse
-import net.doubov.hungryforreddit.MainDetailFragment
-import net.doubov.hungryforreddit.R
-import net.doubov.hungryforreddit.SingleActivity
+import net.doubov.hungryforreddit.*
 import net.doubov.hungryforreddit.di.RootBuilder
-import net.doubov.main.MainListFragment
-import net.doubov.main.MainParentFragment
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Scope

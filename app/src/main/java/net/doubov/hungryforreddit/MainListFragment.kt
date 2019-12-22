@@ -1,4 +1,4 @@
-package net.doubov.main
+package net.doubov.hungryforreddit
 
 import android.os.Bundle
 import android.view.View
@@ -13,8 +13,6 @@ import net.doubov.api.RedditApi
 import net.doubov.api.models.NewsDataResponse
 import net.doubov.core.network.ApiResponse
 import net.doubov.core.network.ApiResponseException
-import net.doubov.hungryforreddit.BaseFragment
-import net.doubov.hungryforreddit.R
 import net.doubov.hungryforreddit.views.headerView
 import javax.inject.Inject
 

@@ -5,10 +5,10 @@ import androidx.fragment.app.FragmentFactory
 import dagger.BindsInstance
 import dagger.Component
 import net.doubov.core.di.ActivityScope
+import net.doubov.hungryforreddit.MainParentFragment
 import net.doubov.hungryforreddit.R
 import net.doubov.hungryforreddit.SingleActivity
 import net.doubov.hungryforreddit.di.main.MainParentBuilder
-import net.doubov.main.MainParentFragment
 
 class RootBuilder(
     private val singleActivity: SingleActivity,

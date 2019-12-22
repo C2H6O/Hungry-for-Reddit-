@@ -1,11 +1,9 @@
-package net.doubov.main
+package net.doubov.hungryforreddit
 
 import android.os.Bundle
 import android.view.View
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import net.doubov.hungryforreddit.BaseFragment
-import net.doubov.hungryforreddit.R
 import net.doubov.hungryforreddit.di.main.MainParentRouter
 import javax.inject.Inject
 
