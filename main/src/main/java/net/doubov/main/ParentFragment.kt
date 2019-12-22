@@ -2,7 +2,6 @@ package net.doubov.main
 
 import android.os.Bundle
 import android.view.View
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.doubov.core.ui.BaseFragment
 import net.doubov.main.routers.ParentRouter
@@ -18,13 +17,11 @@ class ParentFragment : BaseFragment(R.layout.fragment_main_parent) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         if (savedInstanceState == null) {
             router.goToListFragment()
         }
-    }
 
-    override fun onStart() {
-        super.onStart()
         launch {
             for (event in listChannel.channel) {
                 when (event) {
@@ -32,10 +29,5 @@ class ParentFragment : BaseFragment(R.layout.fragment_main_parent) {
                 }
             }
         }
-    }
-
-    override fun onStop() {
-        coroutineContext[Job]?.cancel()
-        super.onStop()
     }
 }
