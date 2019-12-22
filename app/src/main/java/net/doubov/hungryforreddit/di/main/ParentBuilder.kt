@@ -9,7 +9,7 @@ import dagger.*
 import net.doubov.api.models.NewsDataResponse
 import net.doubov.hungryforreddit.R
 import net.doubov.hungryforreddit.SingleActivity
-import net.doubov.hungryforreddit.di.RootBuilder
+import net.doubov.hungryforreddit.di.SingleActivityBuilder
 import net.doubov.main.DetailFragment
 import net.doubov.main.ListFragment
 import net.doubov.main.ParentFragment
@@ -23,7 +23,7 @@ import javax.inject.Scope
 annotation class MainParentScope
 
 class ParentBuilder(
-    private val dependency: RootBuilder.SingleActivityComponent
+    private val dependency: SingleActivityBuilder.SingleActivityComponent
 ) {
 
     fun build(): ParentRouter {
@@ -41,7 +41,7 @@ class ParentBuilder(
     @MainParentScope
     @Component(
         modules = [ParentFragmentModule::class],
-        dependencies = [RootBuilder.SingleActivityComponent::class]
+        dependencies = [SingleActivityBuilder.SingleActivityComponent::class]
     )
     interface ParentFragmentComponent :
         ParentFragmentInjections {
@@ -51,13 +51,13 @@ class ParentBuilder(
         @Component.Factory
         interface Factory {
             fun create(
-                singleActivityComponent: RootBuilder.SingleActivityComponent,
+                singleActivityComponent: SingleActivityBuilder.SingleActivityComponent,
                 @BindsInstance fragment: ParentFragment
             ): ParentFragmentComponent
         }
     }
 
-    interface ParentFragmentInjections : RootBuilder.SingleActivityInjections {
+    interface ParentFragmentInjections : SingleActivityBuilder.SingleActivityInjections {
         fun provideListChannel(): ListFragment.ListChannel
         val parentRouter: ParentRouter
     }

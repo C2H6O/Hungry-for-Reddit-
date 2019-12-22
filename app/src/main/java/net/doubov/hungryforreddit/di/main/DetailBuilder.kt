@@ -41,8 +41,7 @@ class DetailBuilder(
         modules = [DetailFragmentModule::class],
         dependencies = [ParentBuilder.ParentFragmentComponent::class]
     )
-    interface DetailFragmentComponent :
-        DetailFragmentInjections {
+    interface DetailFragmentComponent : DetailFragmentInjections {
 
         val detailRouter: DetailRouter
 

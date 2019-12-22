@@ -10,14 +10,14 @@ import net.doubov.hungryforreddit.di.main.ParentBuilder
 import net.doubov.main.ParentFragment
 import javax.inject.Inject
 
-class RootBuilder(
+class SingleActivityBuilder(
     private val singleActivity: SingleActivity,
     private val anotherComponent: AnotherComponent
 ) {
 
     fun build(): RootRouter {
 
-        val component: SingleActivityComponent = DaggerRootBuilder_SingleActivityComponent
+        val component: SingleActivityComponent = DaggerSingleActivityBuilder_SingleActivityComponent
             .factory()
             .create(singleActivity, anotherComponent)
 

@@ -3,8 +3,8 @@ package net.doubov.hungryforreddit
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentFactory
-import net.doubov.hungryforreddit.di.RootBuilder
 import net.doubov.hungryforreddit.di.RootRouter
+import net.doubov.hungryforreddit.di.SingleActivityBuilder
 import javax.inject.Inject
 
 class SingleActivity : AppCompatActivity() {
@@ -16,7 +16,7 @@ class SingleActivity : AppCompatActivity() {
     lateinit var fragmentFactory: FragmentFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val rootBuilder = RootBuilder(this, App.getApp(this).getAnotherComponent())
+        val rootBuilder = SingleActivityBuilder(this, App.getApp(this).getAnotherComponent())
         rootBuilder.build()
 
         supportFragmentManager.fragmentFactory = fragmentFactory
