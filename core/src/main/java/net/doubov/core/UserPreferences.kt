@@ -5,7 +5,7 @@ import androidx.core.content.edit
 
 class UserPreferences(
     context: Context
-) : Preferences(context, USER_PREFERENCES_NAME) {
+) : Preferences(context, USER) {
 
     object Keys {
         const val USERNAME = "USERNAME"

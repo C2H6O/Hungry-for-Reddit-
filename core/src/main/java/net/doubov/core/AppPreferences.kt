@@ -8,7 +8,7 @@ import net.doubov.core.di.AppScope
 import javax.inject.Inject
 
 @AppScope
-class AppPreferences @Inject constructor(@AppContext context: Context) : Preferences(context, APP_PREFERENCES_NAME) {
+class AppPreferences @Inject constructor(@AppContext context: Context) : Preferences(context, APP) {
 
     object Keys {
         const val ANONYMOUS_ACCESS_TOKEN = "ANONYMOUS_ACCESS_TOKEN"
