@@ -4,7 +4,6 @@ import dagger.Binds
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
-import net.doubov.hungryforreddit.di.main.DaggerDetailBuilder_DetailFragmentComponent
 import net.doubov.hungryforreddit.di.main.parent.ParentBuilder
 import net.doubov.main.DetailFragment
 import net.doubov.main.routers.DetailRouter
