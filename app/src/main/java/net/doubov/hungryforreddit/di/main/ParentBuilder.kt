@@ -22,15 +22,15 @@ import javax.inject.Scope
 @Retention(AnnotationRetention.RUNTIME)
 annotation class MainParentScope
 
-class MainParentBuilder(
+class ParentBuilder(
     private val dependency: RootBuilder.SingleActivityComponent
 ) {
 
-    fun build(): MainParentRouterImpl {
+    fun build(): ParentRouterImpl {
 
         val fragment = ParentFragment()
 
-        val component: MainParentFragmentComponent = DaggerMainParentBuilder_MainParentFragmentComponent.factory()
+        val component: ParentFragmentComponent = DaggerParentBuilder_ParentFragmentComponent.factory()
             .create(dependency, fragment)
 
         component.inject(fragment)
@@ -40,11 +40,11 @@ class MainParentBuilder(
 
     @MainParentScope
     @Component(
-        modules = [MainParentFragmentModule::class],
+        modules = [ParentFragmentModule::class],
         dependencies = [RootBuilder.SingleActivityComponent::class]
     )
-    interface MainParentFragmentComponent :
-        MainParentFragmentInjections {
+    interface ParentFragmentComponent :
+        ParentFragmentInjections {
 
         fun inject(fragment: ParentFragment)
 
@@ -53,49 +53,49 @@ class MainParentBuilder(
             fun create(
                 singleActivityComponent: RootBuilder.SingleActivityComponent,
                 @BindsInstance fragment: ParentFragment
-            ): MainParentFragmentComponent
+            ): ParentFragmentComponent
         }
     }
 
-    interface MainParentFragmentInjections : RootBuilder.SingleActivityInjections {
-        fun provideMainListChannel(): ListFragment.MainListChannel
-        val parentRouter: MainParentRouterImpl
+    interface ParentFragmentInjections : RootBuilder.SingleActivityInjections {
+        fun provideListChannel(): ListFragment.ListChannel
+        val parentRouter: ParentRouterImpl
     }
 
-    @Module(includes = [MainParentFragmentModule.Bindings::class])
-    object MainParentFragmentModule {
+    @Module(includes = [ParentFragmentModule.Bindings::class])
+    object ParentFragmentModule {
 
         @Module
         interface Bindings {
             @Binds
-            fun provideParentRouter(mainParentRouter: MainParentRouterImpl): ParentRouter
+            fun provideParentRouter(parentRouter: ParentRouterImpl): ParentRouter
         }
 
         @Provides
         @MainParentScope
         fun provideOptionalFragmentFactory(
-            mainParentFragmentFactory: MainParentFragmentFactory
+            parentFragmentFactory: ParentFragmentFactory
         ): Optional<FragmentFactory> {
-            return Optional.of(mainParentFragmentFactory)
+            return Optional.of(parentFragmentFactory)
         }
 
 
         @Provides
         @MainParentScope
-        fun provideMainListEvents(): ListFragment.MainListChannel {
-            return ListFragment.MainListChannel()
+        fun provideListEvents(): ListFragment.ListChannel {
+            return ListFragment.ListChannel()
         }
 
         @Provides
         @MainParentScope
-        fun provideMainListBuilder(component: MainParentFragmentComponent): MainListBuilder {
-            return MainListBuilder(component)
+        fun provideListBuilder(component: ParentFragmentComponent): ListBuilder {
+            return ListBuilder(component)
         }
 
         @Provides
         @MainParentScope
-        fun provideMainDetailBuilder(component: MainParentFragmentComponent): MainDetailBuilder {
-            return MainDetailBuilder(component)
+        fun provideDetailBuilder(component: ParentFragmentComponent): DetailBuilder {
+            return DetailBuilder(component)
         }
 
         @Provides
@@ -103,44 +103,44 @@ class MainParentBuilder(
         fun provideRouter(
             activity: SingleActivity,
             fragment: ParentFragment,
-            fragmentFactory: MainParentFragmentFactory,
-            component: MainParentFragmentComponent,
-            mainListBuilder: MainListBuilder,
-            mainDetailBuilder: MainDetailBuilder
-        ): MainParentRouterImpl {
-            return MainParentRouterImpl(
+            fragmentFactory: ParentFragmentFactory,
+            component: ParentFragmentComponent,
+            listBuilder: ListBuilder,
+            detailBuilder: DetailBuilder
+        ): ParentRouterImpl {
+            return ParentRouterImpl(
                 activity,
                 component,
                 fragment,
                 fragmentFactory,
-                mainListBuilder,
-                mainDetailBuilder
+                listBuilder,
+                detailBuilder
             )
         }
     }
 
 }
 
-class MainParentFragmentFactory @Inject constructor(
-    private val mainListBuilder: MainListBuilder,
-    private val mainDetailBuilder: MainDetailBuilder
+class ParentFragmentFactory @Inject constructor(
+    private val listBuilder: ListBuilder,
+    private val detailBuilder: DetailBuilder
 ) : FragmentFactory() {
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
         return when (classLoader.loadClass(className)) {
-            ListFragment::class.java -> mainListBuilder.build().fragment
-            DetailFragment::class.java -> mainDetailBuilder.build().fragment
+            ListFragment::class.java -> listBuilder.build().fragment
+            DetailFragment::class.java -> detailBuilder.build().fragment
             else -> super.instantiate(classLoader, className)
         }
     }
 }
 
-class MainParentRouterImpl(
+class ParentRouterImpl(
     val activity: SingleActivity,
-    val component: MainParentBuilder.MainParentFragmentComponent,
+    val component: ParentBuilder.ParentFragmentComponent,
     val fragment: ParentFragment,
-    val fragmentFactory: MainParentFragmentFactory,
-    private val mainListBuilder: MainListBuilder,
-    private val mainDetailBuilder: MainDetailBuilder
+    val fragmentFactory: ParentFragmentFactory,
+    private val listBuilder: ListBuilder,
+    private val detailBuilder: DetailBuilder
 ) : ParentRouter {
 
     private val callback = activity.onBackPressedDispatcher
@@ -185,7 +185,7 @@ class MainParentRouterImpl(
     override fun goToListFragment() {
         fragment.childFragmentManager
             .beginTransaction()
-            .add(R.id.mainParentFragmentContainer, mainListBuilder.build().fragment)
+            .add(R.id.mainParentFragmentContainer, listBuilder.build().fragment)
             .commit()
     }
 
@@ -195,7 +195,7 @@ class MainParentRouterImpl(
             .beginTransaction()
             .replace(
                 R.id.mainParentFragmentContainer,
-                mainDetailBuilder.buildParametrized(newsDataResponse.id, newsDataResponse.title).fragment
+                detailBuilder.buildParametrized(newsDataResponse.id, newsDataResponse.title).fragment
             )
             .addToBackStack(null)
             .commit()

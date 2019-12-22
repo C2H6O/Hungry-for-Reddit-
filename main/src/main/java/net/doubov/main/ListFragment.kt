@@ -20,12 +20,12 @@ import javax.inject.Inject
 class ListFragment : BaseFragment(R.layout.fragment_main_list) {
 
     @Inject
-    lateinit var eventsChannel: MainListChannel
+    lateinit var eventsChannel: ListChannel
 
     @Inject
     lateinit var redditApi: RedditApi
 
-    class MainListChannel {
+    class ListChannel {
         val channel = Channel<Event>()
     }
 

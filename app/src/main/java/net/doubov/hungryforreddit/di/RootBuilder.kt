@@ -7,7 +7,7 @@ import dagger.Component
 import net.doubov.core.di.ActivityScope
 import net.doubov.hungryforreddit.R
 import net.doubov.hungryforreddit.SingleActivity
-import net.doubov.hungryforreddit.di.main.MainParentBuilder
+import net.doubov.hungryforreddit.di.main.ParentBuilder
 
 class RootBuilder(
     private val singleActivity: SingleActivity,
@@ -15,7 +15,7 @@ class RootBuilder(
 ) {
 
     fun build(): RootRouter {
-        val parentBuilder = MainParentBuilder(component)
+        val parentBuilder = ParentBuilder(component)
         singleActivity.supportFragmentManager.fragmentFactory =
             RootFragmentFactory(parentBuilder)
         return RootRouter(singleActivity, parentBuilder)
@@ -48,11 +48,11 @@ class RootBuilder(
 }
 
 class RootFragmentFactory constructor(
-    private val mainParentBuilder: MainParentBuilder
+    private val parentBuilder: ParentBuilder
 ) : FragmentFactory() {
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
         return when (classLoader.loadClass(className)) {
-            net.doubov.main.ParentFragment::class.java -> mainParentBuilder.build().fragment
+            net.doubov.main.ParentFragment::class.java -> parentBuilder.build().fragment
             else -> super.instantiate(classLoader, className)
         }
     }
@@ -60,7 +60,7 @@ class RootFragmentFactory constructor(
 
 class RootRouter(
     private val activity: SingleActivity,
-    private val mainParentBuilder: MainParentBuilder
+    private val parentBuilder: ParentBuilder
 ) {
 
     fun goToMainParentFragment() {
@@ -69,7 +69,7 @@ class RootRouter(
             .beginTransaction()
             .add(
                 R.id.fragmentContainer,
-                mainParentBuilder.build().fragment
+                parentBuilder.build().fragment
             )
             .commit()
     }

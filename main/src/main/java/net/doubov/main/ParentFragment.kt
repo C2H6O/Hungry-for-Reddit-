@@ -13,7 +13,7 @@ class ParentFragment : BaseFragment(R.layout.fragment_main_parent) {
     lateinit var router: ParentRouter
 
     @Inject
-    lateinit var listChannel: ListFragment.MainListChannel
+    lateinit var listChannel: ListFragment.ListChannel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
