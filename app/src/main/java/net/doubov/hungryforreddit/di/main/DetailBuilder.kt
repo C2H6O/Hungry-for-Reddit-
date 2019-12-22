@@ -31,7 +31,7 @@ class DetailBuilder(
 
         component.inject(fragment)
 
-        return component.router
+        return component.detailRouter
     }
 
     @MainDetailScope
@@ -42,7 +42,7 @@ class DetailBuilder(
     interface DetailFragmentComponent :
         DetailFragmentInjections {
 
-        val router: DetailRouter
+        val detailRouter: DetailRouter
 
         fun inject(fragment: DetailFragment)
 

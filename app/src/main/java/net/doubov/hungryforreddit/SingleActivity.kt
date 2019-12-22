@@ -2,31 +2,30 @@ package net.doubov.hungryforreddit
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import net.doubov.hungryforreddit.di.DaggerRootBuilder_SingleActivityComponent
+import androidx.fragment.app.FragmentFactory
 import net.doubov.hungryforreddit.di.RootBuilder
 import net.doubov.hungryforreddit.di.RootRouter
+import javax.inject.Inject
 
 class SingleActivity : AppCompatActivity() {
 
-    private lateinit var rootBuilder: RootBuilder
-    private lateinit var rootRouter: RootRouter
+    @Inject
+    lateinit var router: RootRouter
+
+    @Inject
+    lateinit var fragmentFactory: FragmentFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val rootBuilder = RootBuilder(this, App.getApp(this).getAnotherComponent())
+        rootBuilder.build()
 
-        val component: RootBuilder.SingleActivityComponent = DaggerRootBuilder_SingleActivityComponent
-            .factory()
-            .create(this, App.getApp(this).getAnotherComponent())
-
-        component.inject(this)
-
-        rootBuilder = RootBuilder(this, component)
-        rootRouter = rootBuilder.build()
+        supportFragmentManager.fragmentFactory = fragmentFactory
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
-            rootRouter.goToMainParentFragment()
+            router.goToMainParentFragment()
         }
     }
 }

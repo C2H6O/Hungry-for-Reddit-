@@ -26,7 +26,7 @@ class ParentBuilder(
     private val dependency: RootBuilder.SingleActivityComponent
 ) {
 
-    fun build(): ParentRouterImpl {
+    fun build(): ParentRouter {
 
         val fragment = ParentFragment()
 
@@ -59,7 +59,7 @@ class ParentBuilder(
 
     interface ParentFragmentInjections : RootBuilder.SingleActivityInjections {
         fun provideListChannel(): ListFragment.ListChannel
-        val parentRouter: ParentRouterImpl
+        val parentRouter: ParentRouter
     }
 
     @Module(includes = [ParentFragmentModule.Bindings::class])
@@ -69,16 +69,16 @@ class ParentBuilder(
         interface Bindings {
             @Binds
             fun provideParentRouter(parentRouter: ParentRouterImpl): ParentRouter
+
+            @BindsOptionalOf
+            fun provideOptionalFragmentFactory(): Optional<FragmentFactory>
         }
 
         @Provides
         @MainParentScope
-        fun provideOptionalFragmentFactory(
-            parentFragmentFactory: ParentFragmentFactory
-        ): Optional<FragmentFactory> {
-            return Optional.of(parentFragmentFactory)
+        fun provideFragmentFactory(parentFragmentFactory: ParentFragmentFactory): FragmentFactory {
+            return parentFragmentFactory
         }
-
 
         @Provides
         @MainParentScope
@@ -97,30 +97,11 @@ class ParentBuilder(
         fun provideDetailBuilder(component: ParentFragmentComponent): DetailBuilder {
             return DetailBuilder(component)
         }
-
-        @Provides
-        @MainParentScope
-        fun provideRouter(
-            activity: SingleActivity,
-            fragment: ParentFragment,
-            fragmentFactory: ParentFragmentFactory,
-            component: ParentFragmentComponent,
-            listBuilder: ListBuilder,
-            detailBuilder: DetailBuilder
-        ): ParentRouterImpl {
-            return ParentRouterImpl(
-                activity,
-                component,
-                fragment,
-                fragmentFactory,
-                listBuilder,
-                detailBuilder
-            )
-        }
     }
 
 }
 
+@MainParentScope
 class ParentFragmentFactory @Inject constructor(
     private val listBuilder: ListBuilder,
     private val detailBuilder: DetailBuilder
@@ -134,10 +115,11 @@ class ParentFragmentFactory @Inject constructor(
     }
 }
 
-class ParentRouterImpl(
+@MainParentScope
+class ParentRouterImpl @Inject constructor(
     val activity: SingleActivity,
     val component: ParentBuilder.ParentFragmentComponent,
-    val fragment: ParentFragment,
+    override val fragment: ParentFragment,
     val fragmentFactory: ParentFragmentFactory,
     private val listBuilder: ListBuilder,
     private val detailBuilder: DetailBuilder

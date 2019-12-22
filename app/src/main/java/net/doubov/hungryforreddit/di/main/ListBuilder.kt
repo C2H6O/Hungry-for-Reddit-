@@ -24,7 +24,7 @@ class ListBuilder(
 
         component.inject(fragment)
 
-        return component.router
+        return component.listRouter
     }
 
     @MainListScope
@@ -35,7 +35,7 @@ class ListBuilder(
     interface ListFragmentComponent :
         ListFragmentInjections {
 
-        val router: ListRouter
+        val listRouter: ListRouter
 
         fun inject(fragment: ListFragment)
 
