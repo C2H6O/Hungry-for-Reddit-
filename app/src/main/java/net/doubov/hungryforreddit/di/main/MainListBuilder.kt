@@ -4,7 +4,7 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import net.doubov.hungryforreddit.MainListFragment
+import net.doubov.main.ListFragment
 import javax.inject.Scope
 
 @Scope
@@ -17,7 +17,7 @@ class MainListBuilder(
 
     fun build(): MainListRouter {
 
-        val fragment = MainListFragment()
+        val fragment = ListFragment()
 
         val component = DaggerMainListBuilder_MainListFragmentComponent.factory()
             .create(dependency, fragment)
@@ -37,13 +37,13 @@ class MainListBuilder(
 
         val router: MainListRouter
 
-        fun inject(fragment: MainListFragment)
+        fun inject(fragment: ListFragment)
 
         @Component.Factory
         interface Factory {
             fun create(
                 mainParentFragmentComponent: MainParentBuilder.MainParentFragmentComponent,
-                @BindsInstance mainListFragment: MainListFragment
+                @BindsInstance listFragment: ListFragment
             ): MainListFragmentComponent
         }
     }
@@ -55,7 +55,7 @@ class MainListBuilder(
 
         @Provides
         @MainListScope
-        fun provideRouter(fragment: MainListFragment, component: MainListFragmentComponent): MainListRouter {
+        fun provideRouter(fragment: ListFragment, component: MainListFragmentComponent): MainListRouter {
             return MainListRouter(component, fragment)
         }
     }
@@ -64,5 +64,5 @@ class MainListBuilder(
 
 class MainListRouter(
     val component: MainListBuilder.MainListFragmentComponent,
-    val fragment: MainListFragment
+    val fragment: ListFragment
 )

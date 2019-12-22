@@ -1,4 +1,4 @@
-package net.doubov.hungryforreddit
+package net.doubov.main
 
 import android.os.Bundle
 import android.view.View
@@ -14,10 +14,10 @@ import net.doubov.api.models.NewsDataResponse
 import net.doubov.core.network.ApiResponse
 import net.doubov.core.network.ApiResponseException
 import net.doubov.core.ui.BaseFragment
-import net.doubov.hungryforreddit.views.headerView
+import net.doubov.main.views.headerView
 import javax.inject.Inject
 
-class MainListFragment : BaseFragment(R.layout.fragment_main_list) {
+class ListFragment : BaseFragment(R.layout.fragment_main_list) {
 
     @Inject
     lateinit var eventsChannel: MainListChannel
@@ -48,7 +48,11 @@ class MainListFragment : BaseFragment(R.layout.fragment_main_list) {
                                     // TODO: fix this with more idiomatic code
                                     View.OnClickListener {
                                         GlobalScope.launch(Dispatchers.Main) {
-                                            eventsChannel.channel.send(Event.OnItemSelected(childResponse))
+                                            eventsChannel.channel.send(
+                                                Event.OnItemSelected(
+                                                    childResponse
+                                                )
+                                            )
                                         }
                                     }
                                 )

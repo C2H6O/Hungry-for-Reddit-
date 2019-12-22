@@ -5,13 +5,15 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.FragmentManager
-import dagger.BindsInstance
-import dagger.Component
-import dagger.Module
-import dagger.Provides
+import dagger.*
 import net.doubov.api.models.NewsDataResponse
-import net.doubov.hungryforreddit.*
+import net.doubov.hungryforreddit.R
+import net.doubov.hungryforreddit.SingleActivity
 import net.doubov.hungryforreddit.di.RootBuilder
+import net.doubov.main.DetailFragment
+import net.doubov.main.ListFragment
+import net.doubov.main.ParentFragment
+import net.doubov.main.ParentRouter
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Scope
@@ -24,9 +26,9 @@ class MainParentBuilder(
     private val dependency: RootBuilder.SingleActivityComponent
 ) {
 
-    fun build(): MainParentRouter {
+    fun build(): MainParentRouterImpl {
 
-        val fragment = MainParentFragment()
+        val fragment = ParentFragment()
 
         val component: MainParentFragmentComponent = DaggerMainParentBuilder_MainParentFragmentComponent.factory()
             .create(dependency, fragment)
@@ -44,24 +46,30 @@ class MainParentBuilder(
     interface MainParentFragmentComponent :
         MainParentFragmentInjections {
 
-        fun inject(fragment: MainParentFragment)
+        fun inject(fragment: ParentFragment)
 
         @Component.Factory
         interface Factory {
             fun create(
                 singleActivityComponent: RootBuilder.SingleActivityComponent,
-                @BindsInstance fragment: MainParentFragment
+                @BindsInstance fragment: ParentFragment
             ): MainParentFragmentComponent
         }
     }
 
     interface MainParentFragmentInjections : RootBuilder.SingleActivityInjections {
-        fun provideMainListChannel(): MainListFragment.MainListChannel
-        val parentRouter: MainParentRouter
+        fun provideMainListChannel(): ListFragment.MainListChannel
+        val parentRouter: MainParentRouterImpl
     }
 
-    @Module
+    @Module(includes = [MainParentFragmentModule.Bindings::class])
     object MainParentFragmentModule {
+
+        @Module
+        interface Bindings {
+            @Binds
+            fun provideParentRouter(mainParentRouter: MainParentRouterImpl): ParentRouter
+        }
 
         @Provides
         @MainParentScope
@@ -74,8 +82,8 @@ class MainParentBuilder(
 
         @Provides
         @MainParentScope
-        fun provideMainListEvents(): MainListFragment.MainListChannel {
-            return MainListFragment.MainListChannel()
+        fun provideMainListEvents(): ListFragment.MainListChannel {
+            return ListFragment.MainListChannel()
         }
 
         @Provides
@@ -94,13 +102,13 @@ class MainParentBuilder(
         @MainParentScope
         fun provideRouter(
             activity: SingleActivity,
-            fragment: MainParentFragment,
+            fragment: ParentFragment,
             fragmentFactory: MainParentFragmentFactory,
             component: MainParentFragmentComponent,
             mainListBuilder: MainListBuilder,
             mainDetailBuilder: MainDetailBuilder
-        ): MainParentRouter {
-            return MainParentRouter(
+        ): MainParentRouterImpl {
+            return MainParentRouterImpl(
                 activity,
                 component,
                 fragment,
@@ -119,21 +127,21 @@ class MainParentFragmentFactory @Inject constructor(
 ) : FragmentFactory() {
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
         return when (classLoader.loadClass(className)) {
-            MainListFragment::class.java -> mainListBuilder.build().fragment
-            MainDetailFragment::class.java -> mainDetailBuilder.build().fragment
+            ListFragment::class.java -> mainListBuilder.build().fragment
+            DetailFragment::class.java -> mainDetailBuilder.build().fragment
             else -> super.instantiate(classLoader, className)
         }
     }
 }
 
-class MainParentRouter(
+class MainParentRouterImpl(
     val activity: SingleActivity,
     val component: MainParentBuilder.MainParentFragmentComponent,
-    val fragment: MainParentFragment,
+    val fragment: ParentFragment,
     val fragmentFactory: MainParentFragmentFactory,
     private val mainListBuilder: MainListBuilder,
     private val mainDetailBuilder: MainDetailBuilder
-) {
+) : ParentRouter {
 
     private val callback = activity.onBackPressedDispatcher
         .addCallback(fragment) {
@@ -156,14 +164,14 @@ class MainParentRouter(
                                 override fun onFragmentAttached(fm: FragmentManager, f: Fragment, context: Context) {
                                     super.onFragmentAttached(fm, f, context)
                                     when (f::class) {
-                                        MainDetailFragment::class -> callback.isEnabled = true
+                                        DetailFragment::class -> callback.isEnabled = true
                                     }
                                 }
 
                                 override fun onFragmentDetached(fm: FragmentManager, f: Fragment) {
                                     super.onFragmentDetached(fm, f)
                                     when (f::class) {
-                                        MainDetailFragment::class -> callback.isEnabled = false
+                                        DetailFragment::class -> callback.isEnabled = false
                                     }
                                 }
                             }, true)
@@ -174,14 +182,14 @@ class MainParentRouter(
             )
     }
 
-    fun goToListFragment() {
+    override fun goToListFragment() {
         fragment.childFragmentManager
             .beginTransaction()
             .add(R.id.mainParentFragmentContainer, mainListBuilder.build().fragment)
             .commit()
     }
 
-    fun goToDetailFragment(newsDataResponse: NewsDataResponse) {
+    override fun goToDetailFragment(newsDataResponse: NewsDataResponse) {
         callback.isEnabled = true
         fragment.childFragmentManager
             .beginTransaction()

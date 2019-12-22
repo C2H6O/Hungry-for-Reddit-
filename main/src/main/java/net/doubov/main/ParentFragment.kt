@@ -1,20 +1,19 @@
-package net.doubov.hungryforreddit
+package net.doubov.main
 
 import android.os.Bundle
 import android.view.View
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.doubov.core.ui.BaseFragment
-import net.doubov.hungryforreddit.di.main.MainParentRouter
 import javax.inject.Inject
 
-class MainParentFragment : BaseFragment(R.layout.fragment_main_parent) {
+class ParentFragment : BaseFragment(R.layout.fragment_main_parent) {
 
     @Inject
-    lateinit var router: MainParentRouter
+    lateinit var router: ParentRouter
 
     @Inject
-    lateinit var mainListChannel: MainListFragment.MainListChannel
+    lateinit var listChannel: ListFragment.MainListChannel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,9 +25,9 @@ class MainParentFragment : BaseFragment(R.layout.fragment_main_parent) {
     override fun onStart() {
         super.onStart()
         launch {
-            for (event in mainListChannel.channel) {
+            for (event in listChannel.channel) {
                 when (event) {
-                    is MainListFragment.Event.OnItemSelected -> router.goToDetailFragment(event.newsDataResponse)
+                    is ListFragment.Event.OnItemSelected -> router.goToDetailFragment(event.newsDataResponse)
                 }
             }
         }

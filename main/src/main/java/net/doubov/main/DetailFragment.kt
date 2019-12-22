@@ -1,4 +1,4 @@
-package net.doubov.hungryforreddit
+package net.doubov.main
 
 import android.os.Bundle
 import android.view.View
@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.fragment_detail.*
 import net.doubov.api.RedditApi
 import javax.inject.Inject
 
-class MainDetailFragment : Fragment(R.layout.fragment_detail) {
+class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     @Inject
     lateinit var redditApi: RedditApi
@@ -21,8 +21,8 @@ class MainDetailFragment : Fragment(R.layout.fragment_detail) {
         fun newInstance(
             id: String,
             title: String
-        ): MainDetailFragment {
-            return MainDetailFragment().also {
+        ): DetailFragment {
+            return DetailFragment().also {
                 it.arguments = Bundle().also {
                     it.putString(Args.ID, id)
                     it.putString(Args.TITLE, title)

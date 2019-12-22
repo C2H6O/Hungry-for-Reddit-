@@ -5,7 +5,6 @@ import androidx.fragment.app.FragmentFactory
 import dagger.BindsInstance
 import dagger.Component
 import net.doubov.core.di.ActivityScope
-import net.doubov.hungryforreddit.MainParentFragment
 import net.doubov.hungryforreddit.R
 import net.doubov.hungryforreddit.SingleActivity
 import net.doubov.hungryforreddit.di.main.MainParentBuilder
@@ -53,7 +52,7 @@ class RootFragmentFactory constructor(
 ) : FragmentFactory() {
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
         return when (classLoader.loadClass(className)) {
-            MainParentFragment::class.java -> mainParentBuilder.build().fragment
+            net.doubov.main.ParentFragment::class.java -> mainParentBuilder.build().fragment
             else -> super.instantiate(classLoader, className)
         }
     }

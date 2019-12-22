@@ -4,7 +4,7 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import net.doubov.hungryforreddit.MainDetailFragment
+import net.doubov.main.DetailFragment
 import javax.inject.Scope
 
 @Scope
@@ -16,16 +16,16 @@ class MainDetailBuilder(
 ) {
 
     fun buildParametrized(id: String, title: String): MainDetailRouter {
-        val fragment = MainDetailFragment.newInstance(id, title)
+        val fragment = DetailFragment.newInstance(id, title)
         return buildRouter(fragment)
     }
 
     fun build(): MainDetailRouter {
-        val fragment = MainDetailFragment()
+        val fragment = DetailFragment()
         return buildRouter(fragment)
     }
 
-    private fun buildRouter(fragment: MainDetailFragment): MainDetailRouter {
+    private fun buildRouter(fragment: DetailFragment): MainDetailRouter {
         val component = DaggerMainDetailBuilder_MainDetailFragmentComponent.factory()
             .create(dependency, fragment)
 
@@ -44,13 +44,13 @@ class MainDetailBuilder(
 
         val router: MainDetailRouter
 
-        fun inject(fragment: MainDetailFragment)
+        fun inject(fragment: DetailFragment)
 
         @Component.Factory
         interface Factory {
             fun create(
                 mainParentFragmentComponent: MainParentBuilder.MainParentFragmentComponent,
-                @BindsInstance mainDetailFragment: MainDetailFragment
+                @BindsInstance detailFragment: DetailFragment
             ): MainDetailFragmentComponent
         }
     }
@@ -61,7 +61,7 @@ class MainDetailBuilder(
     object MainDetailFragmentModule {
         @Provides
         @MainDetailScope
-        fun provideRouter(fragment: MainDetailFragment, component: MainDetailFragmentComponent): MainDetailRouter {
+        fun provideRouter(fragment: DetailFragment, component: MainDetailFragmentComponent): MainDetailRouter {
             return MainDetailRouter(component, fragment)
         }
     }
@@ -70,5 +70,5 @@ class MainDetailBuilder(
 
 class MainDetailRouter(
     val component: MainDetailBuilder.MainDetailFragmentComponent,
-    val fragment: MainDetailFragment
+    val fragment: DetailFragment
 )
