@@ -13,6 +13,7 @@ import net.doubov.api.RedditApi
 import net.doubov.api.models.NewsDataResponse
 import net.doubov.core.network.ApiResponse
 import net.doubov.core.network.ApiResponseException
+import net.doubov.core.ui.BaseFragment
 import net.doubov.hungryforreddit.views.headerView
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package net.doubov.hungryforreddit
+package net.doubov.core.ui
 
 import android.os.Bundle
 import android.view.View

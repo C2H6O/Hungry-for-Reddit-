@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import net.doubov.core.ui.BaseFragment
 import net.doubov.hungryforreddit.di.main.MainParentRouter
 import javax.inject.Inject
 
