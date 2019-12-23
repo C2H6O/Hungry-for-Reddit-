@@ -16,8 +16,8 @@ import javax.inject.Inject
 
 @MainParentScope
 class ParentRouterImpl @Inject constructor(
-    private val activity: SingleActivity,
     override val fragment: ParentFragment,
+    private val activity: SingleActivity,
     private val fragmentFactory: ParentFragmentFactory,
     private val listBuilder: ListBuilder,
     private val detailBuilder: DetailBuilder
