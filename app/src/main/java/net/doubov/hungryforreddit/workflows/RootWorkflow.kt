@@ -2,6 +2,7 @@ package net.doubov.hungryforreddit.workflows
 
 import com.squareup.workflow.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -14,8 +15,9 @@ import net.doubov.hungryforreddit.containers.masterdetail.MasterDetailScreen
 import net.doubov.hungryforreddit.workflows.browser.ListingBrowserProps
 import net.doubov.hungryforreddit.workflows.browser.ListingsBrowserWorkflow
 
+@ExperimentalCoroutinesApi
 class RootWorkflow(
-    val redditApi: RedditApi
+    private val redditApi: RedditApi
 ) :
     StatefulWorkflow<Unit, RootWorkflow.State, Nothing, RootWorkflow.Rendering>() {
 
@@ -54,7 +56,7 @@ class RootWorkflow(
     override fun render(props: Unit, state: State, context: RenderContext<State, Nothing>): Rendering {
         return when (state) {
             State.Init -> {
-                context.runningWorker(LadingFrontPageWorker(redditApi)) {
+                context.runningWorker(FetchFrontPageWorker(redditApi)) {
                     Action.SetNewsResponse(it)
                 }
                 Rendering(isLoading = true)
@@ -73,12 +75,9 @@ class RootWorkflow(
         }
     }
 
-    class LadingFrontPageWorker(val redditApi: RedditApi) : Worker<ApiResponse<NewsResponse>> {
-        override fun run(): Flow<ApiResponse<NewsResponse>> = flow {
-            val response = redditApi.fetchFrontPage()
-            println("LX___ emitting the response $response")
-            emit(response)
-        }
+    @ExperimentalCoroutinesApi
+    class FetchFrontPageWorker(val redditApi: RedditApi) : Worker<ApiResponse<NewsResponse>> {
+        override fun run(): Flow<ApiResponse<NewsResponse>> = flow { emit(redditApi.fetchFrontPage()) }
             .flowOn(Dispatchers.IO)
     }
 
