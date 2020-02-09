@@ -1,4 +1,4 @@
-package net.doubov.hungryforreddit.workflows.detail
+package net.doubov.main.workflows.detail
 
 import android.view.View
 import android.widget.TextView
@@ -7,7 +7,7 @@ import com.squareup.workflow.ui.LayoutRunner
 import com.squareup.workflow.ui.LayoutRunner.Companion.bind
 import com.squareup.workflow.ui.ViewBinding
 import com.squareup.workflow.ui.backPressedHandler
-import net.doubov.hungryforreddit.R
+import net.doubov.main.R
 
 class ListingDetailLayoutRunner(private val view: View) : LayoutRunner<ListingDetailWorklow.Rendering> {
 

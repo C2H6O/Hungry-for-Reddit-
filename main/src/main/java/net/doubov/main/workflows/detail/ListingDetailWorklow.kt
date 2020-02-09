@@ -1,4 +1,4 @@
-package net.doubov.hungryforreddit.workflows.detail
+package net.doubov.main.workflows.detail
 
 import com.squareup.workflow.RenderContext
 import com.squareup.workflow.StatelessWorkflow

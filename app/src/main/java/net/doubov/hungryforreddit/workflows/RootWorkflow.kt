@@ -12,8 +12,8 @@ import net.doubov.api.models.NewsResponse
 import net.doubov.core.containers.masterdetail.MasterDetailScreen
 import net.doubov.core.network.ApiResponse
 import net.doubov.core.network.ApiResponseException
-import net.doubov.hungryforreddit.workflows.browser.ListingBrowserProps
-import net.doubov.hungryforreddit.workflows.browser.ListingsBrowserWorkflow
+import net.doubov.main.workflows.browser.ListingBrowserProps
+import net.doubov.main.workflows.browser.ListingsBrowserWorkflow
 
 @ExperimentalCoroutinesApi
 class RootWorkflow(

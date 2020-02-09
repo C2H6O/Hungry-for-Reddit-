@@ -12,8 +12,8 @@ import net.doubov.core.containers.masterdetail.MasterDetailContainer
 import net.doubov.hungryforreddit.di.DaggerSingleActivityComponent
 import net.doubov.hungryforreddit.workflows.RootLayoutRunner
 import net.doubov.hungryforreddit.workflows.RootWorkflow
-import net.doubov.hungryforreddit.workflows.detail.ListingDetailLayoutRunner
-import net.doubov.hungryforreddit.workflows.list.ListingsLayoutRunner
+import net.doubov.main.workflows.detail.ListingDetailLayoutRunner
+import net.doubov.main.workflows.list.ListingsLayoutRunner
 import javax.inject.Inject
 
 class SingleActivity : AppCompatActivity() {

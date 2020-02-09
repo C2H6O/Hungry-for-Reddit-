@@ -1,10 +1,10 @@
-package net.doubov.hungryforreddit.workflows.list
+package net.doubov.main.workflows.list
 
 import com.squareup.workflow.RenderContext
 import com.squareup.workflow.StatelessWorkflow
 import com.squareup.workflow.makeEventSink
 import net.doubov.api.models.NewsDataResponse
-import net.doubov.hungryforreddit.workflows.browser.SelectedListing
+import net.doubov.main.workflows.browser.SelectedListing
 
 data class ListingsProps(
     val selected: Int,

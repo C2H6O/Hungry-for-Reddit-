@@ -1,4 +1,4 @@
-package net.doubov.hungryforreddit.workflows.list
+package net.doubov.main.workflows.list
 
 import android.view.View
 import com.airbnb.epoxy.EpoxyRecyclerView
@@ -6,7 +6,7 @@ import com.squareup.workflow.ui.ContainerHints
 import com.squareup.workflow.ui.LayoutRunner
 import com.squareup.workflow.ui.LayoutRunner.Companion.bind
 import com.squareup.workflow.ui.ViewBinding
-import net.doubov.hungryforreddit.R
+import net.doubov.main.R
 import net.doubov.main.views.headerView
 
 class ListingsLayoutRunner(view: View) : LayoutRunner<ListingsWorkflow.Rendering> {

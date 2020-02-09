@@ -63,6 +63,10 @@ dependencies {
     // Add the annotation processor if you are using Epoxy's annotations (recommended)
     kapt 'com.airbnb.android:epoxy-processor:3.7.0'
 
+    implementation "com.squareup.workflow:workflow-ui-core-android:0.23.0"
+    implementation "com.squareup.workflow:workflow-ui-backstack-android:0.23.0"
+    implementation "com.squareup.workflow:workflow-ui-modal-android:0.23.0"
+
     implementation "com.google.dagger:dagger:2.25.2"
     kapt "com.google.dagger:dagger-compiler:2.25.2"
 
