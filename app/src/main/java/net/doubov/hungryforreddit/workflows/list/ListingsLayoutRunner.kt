@@ -1,4 +1,4 @@
-package net.doubov.hungryforreddit.workflows.main
+package net.doubov.hungryforreddit.workflows.list
 
 import android.view.View
 import com.airbnb.epoxy.EpoxyRecyclerView
@@ -27,7 +27,7 @@ class ListingsLayoutRunner(view: View) : LayoutRunner<ListingsWorkflow.Rendering
                     ups(childResponse.ups.toString())
                     clickListener(
                         View.OnClickListener {
-                            println("LX___ clicked....")
+                            rendering.onListingSelected.invoke(index)
                         }
                     )
                 }

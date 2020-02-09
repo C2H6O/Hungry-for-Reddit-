@@ -11,8 +11,8 @@ import net.doubov.api.models.NewsResponse
 import net.doubov.core.network.ApiResponse
 import net.doubov.core.network.ApiResponseException
 import net.doubov.hungryforreddit.containers.masterdetail.MasterDetailScreen
-import net.doubov.hungryforreddit.workflows.main.ListingBrowserProps
-import net.doubov.hungryforreddit.workflows.main.ListingsBrowserWorkflow
+import net.doubov.hungryforreddit.workflows.browser.ListingBrowserProps
+import net.doubov.hungryforreddit.workflows.browser.ListingsBrowserWorkflow
 
 class RootWorkflow(
     val redditApi: RedditApi

@@ -13,9 +13,9 @@ import net.doubov.hungryforreddit.containers.masterdetail.MasterDetailContainer
 import net.doubov.hungryforreddit.di.DaggerSingleActivityComponent
 import net.doubov.hungryforreddit.workflows.RootLayoutRunner
 import net.doubov.hungryforreddit.workflows.RootWorkflow
-import net.doubov.hungryforreddit.workflows.main.ListingsLayoutRunner
+import net.doubov.hungryforreddit.workflows.detail.ListingDetailLayoutRunner
+import net.doubov.hungryforreddit.workflows.list.ListingsLayoutRunner
 import javax.inject.Inject
-
 
 class SingleActivity : AppCompatActivity() {
 
@@ -45,12 +45,12 @@ class SingleActivity : AppCompatActivity() {
         )
     }
 
-
     private companion object {
         private val viewRegistry = ViewRegistry(
             MasterDetailContainer,
             BackStackContainer,
             ListingsLayoutRunner,
+            ListingDetailLayoutRunner,
             RootLayoutRunner
         )
     }
