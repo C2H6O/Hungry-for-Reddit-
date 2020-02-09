@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.doubov.hungryforreddit.containers.panel
+package net.doubov.core.containers.panel
 
 /**
  * Show a scrim over the [wrapped] item, which is invisible if [dimmed] is false,

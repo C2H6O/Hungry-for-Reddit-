@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.doubov.hungryforreddit.containers.masterdetail
+package net.doubov.core.containers.masterdetail
 
 import android.view.View
 import android.view.View.INVISIBLE
@@ -23,8 +23,8 @@ import com.squareup.workflow.ui.LayoutRunner
 import com.squareup.workflow.ui.ViewBinding
 import com.squareup.workflow.ui.WorkflowViewStub
 import com.squareup.workflow.ui.backstack.BackStackScreen
-import net.doubov.hungryforreddit.R
-import net.doubov.hungryforreddit.containers.masterdetail.MasterDetailConfig.*
+import net.doubov.core.R
+import net.doubov.core.containers.masterdetail.MasterDetailConfig.*
 
 /**
  * Displays [MasterDetailScreen] renderings in either split pane or single pane

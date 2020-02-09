@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.doubov.hungryforreddit.containers.panel
+package net.doubov.core.containers.panel
 
 import android.animation.ValueAnimator
 import android.content.Context
@@ -24,7 +24,7 @@ import com.squareup.workflow.ui.BuilderBinding
 import com.squareup.workflow.ui.ViewBinding
 import com.squareup.workflow.ui.WorkflowViewStub
 import com.squareup.workflow.ui.bindShowRendering
-import net.doubov.hungryforreddit.R
+import net.doubov.core.R
 
 /**
  * A view that renders only its first child, behind a smoke scrim if

@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.squareup.sample.container.panel
+package net.doubov.core.containers.panel
 
 import android.content.Context
 import android.view.Display
 import android.view.WindowManager
-import net.doubov.hungryforreddit.R
+import net.doubov.core.R
 
 val Context.isPortrait: Boolean get() = resources.getBoolean(R.bool.is_portrait)
 

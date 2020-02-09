@@ -6,7 +6,7 @@ import com.squareup.workflow.StatefulWorkflow
 import com.squareup.workflow.WorkflowAction
 import com.squareup.workflow.ui.backstack.BackStackScreen
 import net.doubov.api.models.NewsDataResponse
-import net.doubov.hungryforreddit.containers.masterdetail.MasterDetailScreen
+import net.doubov.core.containers.masterdetail.MasterDetailScreen
 import net.doubov.hungryforreddit.workflows.detail.ListingDetailWorklow
 import net.doubov.hungryforreddit.workflows.list.ListingsProps
 import net.doubov.hungryforreddit.workflows.list.ListingsWorkflow

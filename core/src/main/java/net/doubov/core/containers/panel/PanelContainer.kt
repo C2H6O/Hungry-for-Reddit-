@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.doubov.hungryforreddit.containers.panel
+package net.doubov.core.containers.panel
 
 import android.app.Dialog
 import android.content.Context
@@ -24,14 +24,11 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import com.squareup.sample.container.panel.display
-import com.squareup.sample.container.panel.isPortrait
-import com.squareup.sample.container.panel.isTablet
 import com.squareup.workflow.ui.BuilderBinding
 import com.squareup.workflow.ui.ViewBinding
 import com.squareup.workflow.ui.bindShowRendering
 import com.squareup.workflow.ui.modal.ModalViewContainer
-import net.doubov.hungryforreddit.R
+import net.doubov.core.R
 
 /**
  * Used by Tic Tac Workflow sample to show its [PanelContainerScreen]s.
