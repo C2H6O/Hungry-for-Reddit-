@@ -7,7 +7,6 @@ import com.squareup.workflow.ui.ViewRegistry
 import com.squareup.workflow.ui.WorkflowRunner
 import com.squareup.workflow.ui.backstack.BackStackContainer
 import com.squareup.workflow.ui.setContentWorkflow
-import net.doubov.api.RedditApi
 import net.doubov.core.containers.masterdetail.MasterDetailContainer
 import net.doubov.hungryforreddit.di.DaggerSingleActivityComponent
 import net.doubov.hungryforreddit.workflows.RootLayoutRunner
@@ -19,7 +18,7 @@ import javax.inject.Inject
 class SingleActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var redditApi: RedditApi
+    lateinit var rootWorkflow: RootWorkflow
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +33,7 @@ class SingleActivity : AppCompatActivity() {
             registry = viewRegistry,
             configure = {
                 WorkflowRunner.Config(
-                    RootWorkflow(redditApi),
+                    rootWorkflow,
                     diagnosticListener = SimpleLoggingDiagnosticListener()
                 )
             },

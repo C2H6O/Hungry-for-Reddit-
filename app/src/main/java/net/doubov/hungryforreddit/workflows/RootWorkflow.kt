@@ -10,13 +10,16 @@ import net.doubov.api.RedditApi
 import net.doubov.api.models.NewsDataResponse
 import net.doubov.api.models.NewsResponse
 import net.doubov.core.containers.masterdetail.MasterDetailScreen
+import net.doubov.core.di.ActivityScope
 import net.doubov.core.network.ApiResponse
 import net.doubov.core.network.ApiResponseException
 import net.doubov.main.workflows.browser.ListingBrowserProps
 import net.doubov.main.workflows.browser.ListingsBrowserWorkflow
+import javax.inject.Inject
 
+@ActivityScope
 @ExperimentalCoroutinesApi
-class RootWorkflow(
+class RootWorkflow @Inject constructor(
     private val redditApi: RedditApi
 ) :
     StatefulWorkflow<Unit, RootWorkflow.State, Nothing, RootWorkflow.Rendering>() {
