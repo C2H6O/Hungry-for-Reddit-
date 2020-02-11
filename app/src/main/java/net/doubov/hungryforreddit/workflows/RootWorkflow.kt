@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.flowOn
 import net.doubov.api.RedditApi
 import net.doubov.api.models.NewsDataResponse
 import net.doubov.api.models.NewsResponse
+import net.doubov.api.models.toListings
 import net.doubov.core.containers.masterdetail.MasterDetailScreen
 import net.doubov.core.di.ActivityScope
 import net.doubov.core.network.ApiResponse
@@ -25,17 +26,17 @@ class RootWorkflow @Inject constructor(
     StatefulWorkflow<Unit, RootWorkflow.State, Nothing, RootWorkflow.Rendering>() {
 
     sealed class Action : WorkflowAction<State, Nothing> {
-        data class SetNewsResponse(val newsResponse: ApiResponse<NewsResponse>) : Action() {
+        data class SetNewsResponse(val apiResponse: ApiResponse<NewsResponse>) : Action() {
             override fun WorkflowAction.Updater<State, Nothing>.apply() {
-                nextState = when (val oldState = nextState) {
-                    State.Init, is State.Error -> when (newsResponse) {
-                        is ApiResponse.Success -> State.Data(newsResponse.data.data.children.map { it.data })
-                        is ApiResponse.Failure -> State.Error(newsResponse.exception)
+                nextState = when (apiResponse) {
+                    is ApiResponse.Success -> {
+                        val listings = apiResponse.toListings()
+                        when (val oldState = nextState) {
+                            State.Init, is State.Error -> State.Data(listings)
+                            is State.Data -> oldState.copy(listings = listings)
+                        }
                     }
-                    is State.Data -> when (newsResponse) {
-                        is ApiResponse.Success -> oldState.copy(listings = newsResponse.data.data.children.map { it.data })
-                        is ApiResponse.Failure -> State.Error(newsResponse.exception)
-                    }
+                    is ApiResponse.Failure -> State.Error(apiResponse.exception)
                 }
             }
         }
