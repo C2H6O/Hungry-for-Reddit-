@@ -10,7 +10,7 @@ import net.doubov.api.RedditApi
 import net.doubov.api.models.NewsDataResponse
 import net.doubov.api.models.NewsResponse
 import net.doubov.api.models.toListings
-import net.doubov.core.containers.masterdetail.MasterDetailScreen
+import net.doubov.core.containers.overviewdetail.OverviewDetailScreen
 import net.doubov.core.di.ActivityScope
 import net.doubov.core.network.ApiResponse
 import net.doubov.core.network.ApiResponseException
@@ -51,7 +51,7 @@ class RootWorkflow @Inject constructor(
     data class Rendering(
         val isLoading: Boolean = false,
         val isError: Boolean = false,
-        val listingsBrowserRendering: MasterDetailScreen? = null
+        val listingsBrowserRendering: OverviewDetailScreen? = null
     )
 
     override fun initialState(props: Unit, snapshot: Snapshot?): State = State.Init

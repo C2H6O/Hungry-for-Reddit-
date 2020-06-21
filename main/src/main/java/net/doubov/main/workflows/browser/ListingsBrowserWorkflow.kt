@@ -6,7 +6,7 @@ import com.squareup.workflow.StatefulWorkflow
 import com.squareup.workflow.WorkflowAction
 import com.squareup.workflow.ui.backstack.BackStackScreen
 import net.doubov.api.models.NewsDataResponse
-import net.doubov.core.containers.masterdetail.MasterDetailScreen
+import net.doubov.core.containers.overviewdetail.OverviewDetailScreen
 import net.doubov.main.workflows.detail.ListingDetailWorklow
 import net.doubov.main.workflows.list.ListingsProps
 import net.doubov.main.workflows.list.ListingsWorkflow
@@ -17,7 +17,8 @@ data class ListingBrowserProps(
 
 data class SelectedListing(val index: Int)
 
-object ListingsBrowserWorkflow : StatefulWorkflow<ListingBrowserProps, SelectedListing, Nothing, MasterDetailScreen>() {
+object ListingsBrowserWorkflow
+    : StatefulWorkflow<ListingBrowserProps, SelectedListing, Nothing, OverviewDetailScreen>() {
 
     sealed class Action : WorkflowAction<SelectedListing, Nothing> {
         data class SetSelected(val selectedListing: SelectedListing) : Action() {
@@ -34,7 +35,7 @@ object ListingsBrowserWorkflow : StatefulWorkflow<ListingBrowserProps, SelectedL
         props: ListingBrowserProps,
         state: SelectedListing,
         context: RenderContext<SelectedListing, Nothing>
-    ): MasterDetailScreen {
+    ): OverviewDetailScreen {
 
         val listingsRendering = context.renderChild(
             ListingsWorkflow,
@@ -46,12 +47,12 @@ object ListingsBrowserWorkflow : StatefulWorkflow<ListingBrowserProps, SelectedL
         val masterScreen: BackStackScreen<Any> = BackStackScreen(listingsRendering)
 
         return if (state.index == -1) {
-            MasterDetailScreen(masterScreen)
+            OverviewDetailScreen(masterScreen)
         } else {
             val detailScreen = context.renderChild(ListingDetailWorklow, props.listings[state.index]) {
                 Action.SetSelected(SelectedListing(-1))
             }
-            MasterDetailScreen(masterScreen, BackStackScreen(detailScreen) as BackStackScreen<Any>)
+            OverviewDetailScreen(masterScreen, BackStackScreen(detailScreen) as BackStackScreen<Any>)
         }
     }
 

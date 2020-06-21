@@ -7,7 +7,7 @@ import com.squareup.workflow.ui.ViewRegistry
 import com.squareup.workflow.ui.WorkflowRunner
 import com.squareup.workflow.ui.backstack.BackStackContainer
 import com.squareup.workflow.ui.setContentWorkflow
-import net.doubov.core.containers.masterdetail.MasterDetailContainer
+import net.doubov.core.containers.overviewdetail.OverviewDetailContainer
 import net.doubov.hungryforreddit.di.DaggerSingleActivityComponent
 import net.doubov.hungryforreddit.workflows.RootLayoutRunner
 import net.doubov.hungryforreddit.workflows.RootWorkflow
@@ -45,7 +45,7 @@ class SingleActivity : AppCompatActivity() {
 
     private companion object {
         private val viewRegistry = ViewRegistry(
-            MasterDetailContainer,
+            OverviewDetailContainer,
             BackStackContainer,
             ListingsLayoutRunner,
             ListingDetailLayoutRunner,
