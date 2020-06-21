@@ -13,7 +13,7 @@ object SerializationModule {
     @AppScope
     fun provideKotlinSerializationJson(): Json {
         return Json(
-            JsonConfiguration.Stable.copy(strictMode = false, classDiscriminator = "kind"),
+            JsonConfiguration.Stable.copy(classDiscriminator = "kind", ignoreUnknownKeys = true),
             context = thingModule
         )
     }
