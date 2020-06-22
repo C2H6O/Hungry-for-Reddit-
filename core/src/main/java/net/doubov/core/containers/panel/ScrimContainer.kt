@@ -21,7 +21,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.workflow.ui.BuilderBinding
-import com.squareup.workflow.ui.ViewBinding
+import com.squareup.workflow.ui.ViewFactory
 import com.squareup.workflow.ui.WorkflowViewStub
 import com.squareup.workflow.ui.bindShowRendering
 import net.doubov.core.R
@@ -104,9 +104,9 @@ class ScrimContainer @JvmOverloads constructor(
         }
     }
 
-    companion object : ViewBinding<ScrimContainerScreen<*>> by BuilderBinding(
+    companion object : ViewFactory<ScrimContainerScreen<*>> by BuilderBinding(
         type = ScrimContainerScreen::class,
-        viewConstructor = { initialRendering, initialContainerHints, contextForNewView, _ ->
+        viewConstructor = { initialRendering, viewEnvironment, contextForNewView, _ ->
             val stub = WorkflowViewStub(contextForNewView)
 
             ScrimContainer(contextForNewView)
@@ -114,7 +114,7 @@ class ScrimContainer @JvmOverloads constructor(
                     layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
                     addView(stub)
 
-                    bindShowRendering(initialRendering, initialContainerHints) { rendering, hints ->
+                    bindShowRendering(initialRendering, viewEnvironment) { rendering, hints ->
                         stub.update(rendering.wrapped, hints)
                         isDimmed = rendering.dimmed
                     }
